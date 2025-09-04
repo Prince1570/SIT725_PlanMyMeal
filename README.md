@@ -1,1 +1,1 @@
-# SIT725_MoodBite_MealPlanner
+# SIT725_Plan_My_Meal
