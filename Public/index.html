@@ -25,7 +25,7 @@
         <a class="active-btn" href="index.html">Home</a>
         <a class="inactive-btn" href="about.html">About</a>
         <a class="inactive-btn" href="contact.html">Contact</a>
-        <a class="inactive-btn" href="#">Favorites</a>
+        <a class="inactive-btn" href="favourites.html">Favorites</a>
     </nav>
     </div>
 
@@ -129,72 +129,109 @@
       <div class="container">
         <div class="recipes-grid">
           <!-- 8 example cards — structure matches screenshot -->
-          <article class="recipe-card">
-            <div class="avatar"></div>
-            <h4>Grilled Salmon</h4>
-            <p class="rc-desc">Fresh Atlantic salmon grilled to perfection with herbs and lemon. Served with seasonal vegetables and quinoa.</p>
-            <div class="meta"><span class="dot">●</span> <span class="cal">420 calories</span></div>
-            <p class="ingredients"><strong>Ingredients:</strong> Salmon fillet, Lemon, Herbs...</p>
-          </article>
+          <!-- Recipe Card 1 -->
+<article class="recipe-card">
+  <div class="avatar"></div>
+  <h4>Grilled Salmon</h4>
+  <p class="rc-desc">Fresh Atlantic salmon grilled to perfection with herbs and lemon. Served with seasonal vegetables and quinoa.</p>
+  <div class="meta"><span class="dot">●</span> <span class="cal">420 calories</span></div>
+  <p class="ingredients"><strong>Ingredients:</strong> Salmon fillet, Lemon, Herbs...</p>
+  <button class="btn favorite-btn" 
+          onclick="addToFavorites('Grilled Salmon', 'Fresh Atlantic salmon grilled to perfection with herbs and lemon. Served with seasonal vegetables and quinoa.')">
+    ❤️ Add to Favorites
+  </button>
+</article>
 
-          <article class="recipe-card">
-            <div class="avatar"></div>
-            <h4>Chicken Caesar Salad</h4>
-            <p class="rc-desc">Crispy romaine lettuce, grilled chicken breast, parmesan cheese, and homemade Caesar dressing.</p>
-            <div class="meta"><span class="dot">●</span> <span class="cal">350 calories</span></div>
-            <p class="ingredients"><strong>Ingredients:</strong> Chicken breast, Romaine lettuce, Parmesan...</p>
-          </article>
+<!-- Recipe Card 2 -->
+<article class="recipe-card">
+  <div class="avatar"></div>
+  <h4>Chicken Caesar Salad</h4>
+  <p class="rc-desc">Crisp romaine lettuce tossed with grilled chicken, parmesan, croutons, and Caesar dressing.</p>
+  <div class="meta"><span class="dot">●</span> <span class="cal">350 calories</span></div>
+  <p class="ingredients"><strong>Ingredients:</strong> Chicken breast, Romaine, Parmesan, Croutons, Caesar dressing...</p>
+  <button class="btn favorite-btn" 
+          onclick="addToFavorites('Chicken Caesar Salad', 'Crisp romaine lettuce tossed with grilled chicken, parmesan, croutons, and Caesar dressing.')">
+    ❤️ Add to Favorites
+  </button>
+</article>
 
-          <article class="recipe-card">
-            <div class="avatar"></div>
-            <h4>Vegetable Stir Fry</h4>
-            <p class="rc-desc">Stir-fried mixed vegetables with ginger, garlic, and soy sauce. Served over jasmine rice.</p>
-            <div class="meta"><span class="dot">●</span> <span class="cal">280 calories</span></div>
-            <p class="ingredients"><strong>Ingredients:</strong> Mixed vegetables, Ginger, Garlic...</p>
-          </article>
+<!-- Recipe Card 3 -->
+<article class="recipe-card">
+  <div class="avatar"></div>
+  <h4>Spaghetti Bolognese</h4>
+  <p class="rc-desc">Classic Italian pasta with rich, slow-cooked meat sauce topped with parmesan cheese.</p>
+  <div class="meta"><span class="dot">●</span> <span class="cal">500 calories</span></div>
+  <p class="ingredients"><strong>Ingredients:</strong> Spaghetti, Ground beef, Tomato sauce, Onion, Garlic...</p>
+  <button class="btn favorite-btn" 
+          onclick="addToFavorites('Spaghetti Bolognese', 'Classic Italian pasta with rich, slow-cooked meat sauce topped with parmesan cheese.')">
+    ❤️ Add to Favorites
+  </button>
+</article>
 
-          <article class="recipe-card">
-            <div class="avatar"></div>
-            <h4>Beef Tacos</h4>
-            <p class="rc-desc">Seasoned ground beef in soft tortillas with fresh salsa, lettuce, cheese and sour cream.</p>
-            <div class="meta"><span class="dot">●</span> <span class="cal">450 calories</span></div>
-            <p class="ingredients"><strong>Ingredients:</strong> Ground beef, Soft tortillas, Fresh salsa...</p>
-          </article>
+<!-- Recipe Card 4 -->
+<article class="recipe-card">
+  <div class="avatar"></div>
+  <h4>Vegetable Stir Fry</h4>
+  <p class="rc-desc">A colorful mix of fresh vegetables sautéed in a light soy-ginger sauce, served with rice.</p>
+  <div class="meta"><span class="dot">●</span> <span class="cal">300 calories</span></div>
+  <p class="ingredients"><strong>Ingredients:</strong> Broccoli, Bell peppers, Carrots, Soy sauce, Ginger...</p>
+  <button class="btn favorite-btn" 
+          onclick="addToFavorites('Vegetable Stir Fry', 'A colorful mix of fresh vegetables sautéed in a light soy-ginger sauce, served with rice.')">
+    ❤️ Add to Favorites
+  </button>
+</article>
 
-          <article class="recipe-card">
-            <div class="avatar"></div>
-            <h4>Margherita Pizza</h4>
-            <p class="rc-desc">Wood-fired pizza with fresh mozzarella, basil, tomatoes, and olive oil on a thin crust.</p>
-            <div class="meta"><span class="dot">●</span> <span class="cal">520 calories</span></div>
-            <p class="ingredients"><strong>Ingredients:</strong> Pizza dough, Fresh mozzarella, Basil...</p>
-          </article>
+<!-- Recipe Card 5 -->
+<article class="recipe-card">
+  <div class="avatar"></div>
+  <h4>Beef Tacos</h4>
+  <p class="rc-desc">Soft tortillas filled with seasoned beef, fresh lettuce, cheese, and salsa for a Mexican favorite.</p>
+  <div class="meta"><span class="dot">●</span> <span class="cal">450 calories</span></div>
+  <p class="ingredients"><strong>Ingredients:</strong> Beef, Tortillas, Lettuce, Cheese, Salsa...</p>
+  <button class="btn favorite-btn" 
+          onclick="addToFavorites('Beef Tacos', 'Soft tortillas filled with seasoned beef, fresh lettuce, cheese, and salsa for a Mexican favorite.')">
+    ❤️ Add to Favorites
+  </button>
+</article>
 
-          <article class="recipe-card">
-            <div class="avatar"></div>
-            <h4>Thai Green Curry</h4>
-            <p class="rc-desc">Aromatic green curry with coconut milk, vegetables, and jasmine rice. Choice of protein available.</p>
-            <div class="meta"><span class="dot">●</span> <span class="cal">380 calories</span></div>
-            <p class="ingredients"><strong>Ingredients:</strong> Green curry paste, Coconut milk, Mixed vegetables...</p>
-          </article>
+<!-- Recipe Card 6 -->
+<article class="recipe-card">
+  <div class="avatar"></div>
+  <h4>Margherita Pizza</h4>
+  <p class="rc-desc">Classic pizza topped with fresh tomatoes, mozzarella, and basil leaves baked to perfection.</p>
+  <div class="meta"><span class="dot">●</span> <span class="cal">480 calories</span></div>
+  <p class="ingredients"><strong>Ingredients:</strong> Pizza dough, Tomatoes, Mozzarella, Basil...</p>
+  <button class="btn favorite-btn" 
+          onclick="addToFavorites('Margherita Pizza', 'Classic pizza topped with fresh tomatoes, mozzarella, and basil leaves baked to perfection.')">
+    ❤️ Add to Favorites
+  </button>
+</article>
 
-          <article class="recipe-card">
-            <div class="avatar"></div>
-            <h4>BBQ Pulled Pork</h4>
-            <p class="rc-desc">Slow-cooked pulled pork with tangy BBQ sauce, served on a brioche bun with coleslaw.</p>
-            <div class="meta"><span class="dot">●</span> <span class="cal">480 calories</span></div>
-            <p class="ingredients"><strong>Ingredients:</strong> Pork shoulder, BBQ sauce, Brioche bun...</p>
-          </article>
+<!-- Recipe Card 7 -->
+<article class="recipe-card">
+  <div class="avatar"></div>
+  <h4>Chocolate Brownies</h4>
+  <p class="rc-desc">Rich and fudgy chocolate brownies with a crackly top, perfect for dessert lovers.</p>
+  <div class="meta"><span class="dot">●</span> <span class="cal">400 calories</span></div>
+  <p class="ingredients"><strong>Ingredients:</strong> Chocolate, Butter, Sugar, Eggs, Flour...</p>
+  <button class="btn favorite-btn" 
+          onclick="addToFavorites('Chocolate Brownies', 'Rich and fudgy chocolate brownies with a crackly top, perfect for dessert lovers.')">
+    ❤️ Add to Favorites
+  </button>
+</article>
 
-          <article class="recipe-card">
-            <div class="avatar"></div>
-            <h4>Veggie Delight</h4>
-            <p class="rc-desc">Seasonal roasted vegetables with quinoa and tahini dressing.</p>
-            <div class="meta"><span class="dot">●</span> <span class="cal">300 calories</span></div>
-            <p class="ingredients"><strong>Ingredients:</strong> Seasonal vegetables, Quinoa, Tahini...</p>
-          </article>
-        </div>
-      </div>
-    </section>
+<!-- Recipe Card 8 -->
+<article class="recipe-card">
+  <div class="avatar"></div>
+  <h4>Fruit Smoothie</h4>
+  <p class="rc-desc">Refreshing blend of mixed fruits with yogurt and honey, perfect for a healthy breakfast.</p>
+  <div class="meta"><span class="dot">●</span> <span class="cal">200 calories</span></div>
+  <p class="ingredients"><strong>Ingredients:</strong> Mixed berries, Banana, Yogurt, Honey...</p>
+  <button class="btn favorite-btn" 
+          onclick="addToFavorites('Fruit Smoothie', 'Refreshing blend of mixed fruits with yogurt and honey, perfect for a healthy breakfast.')">
+    ❤️ Add to Favorites
+  </button>
+</article>
 
     <!-- INSTAGRAM GRID -->
     <section class="instagram">
@@ -274,6 +311,21 @@
     <p>Already have an account? <span class="link-text" onclick="switchToLogin()">Login</span></p>
   </div>
 </div>
+<script src="script.js"></script>
+<script src="auth.js"></script>
+<script>
+  function addToFavorites(recipeName, recipeDesc) {
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    if (!favorites.some(f => f.name === recipeName)) {
+      favorites.push({ name: recipeName, description: recipeDesc });
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      alert(recipeName + " added to favorites!");
+    } else {
+      alert(recipeName + " is already in your favorites!");
+    }
+  }
+</script>
 </body>
+
 </html>
 
