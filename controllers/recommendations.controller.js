@@ -45,10 +45,10 @@ async function getRecommendations(req, res) {
     let user;
     if (requestedId) {
         user = mockUsers.find(u => u.userId === requestedId);
-        if (!user) user = mockUsers[1]; // fallback
+        if (!user) user = mockUsers[2]; // fallback
     } else {
         // For now, default to mockUsers[3]
-        user = mockUsers[1];
+        user = mockUsers[2];
     }
 
     console.log(`recommendations: using user=${user.userId} dietaryType=${user.dietaryType} mood=${user.mood}`);
