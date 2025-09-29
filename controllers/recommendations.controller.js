@@ -116,6 +116,22 @@ async function seedUsers(req, res) {
     }
 }
 
+// Add this new controller function
+export const getUserRecommendations = async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+
+        const recommendations = await llmService.getUserRecommendationsByUserId(userId);
+
+        return res.json(recommendations);
+    } catch (error) {
+        console.error("Error getting user recommendations:", error);
+        return res.status(500).json({
+            error: "Failed to retrieve user recommendations"
+        });
+    }
+};
+
 export {
     getRecommendations,
     seedUsers

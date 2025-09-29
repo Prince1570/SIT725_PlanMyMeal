@@ -1,230 +1,224 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Plan My Meal</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Plan My Meal</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/main.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-     <!-- Inter font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-   
-
 </head>
 <body>
-  <header class="site-header">
-  <div class="header-inner">
-    <div class="left-nav">
-        <nav class="links">
-        <a class="active-btn" href="index.html">Home</a>
-        <a class="inactive-btn" href="about.html">About</a>
-        <a class="inactive-btn" href="contact.html">Contact</a>
-        <a class="inactive-btn" href="favourites.html">Favorites</a>
-    </nav>
-    </div>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="left-nav">
+                <nav class="links">
+                    <a class="active-btn" href="index.html">Home</a>
+                    <a class="inactive-btn" href="about.html">About</a>
+                    <a class="inactive-btn" href="contact.html">Contact</a>
+                    <a class="inactive-btn" href="favourites.html">Favorites</a>
+                </nav>
+            </div>
 
-    <div class="brand">Plan My Meal</div>
+            <div class="brand">Plan My Meal</div>
 
-    <div class="auth">
-      <button class="btn ghost">Login</button>
-      <button class="btn primary">Log Out</button>
-    </div>
-  </div>
-</header>
+            <div class="auth">
+                <button class="btn ghost" id="loginBtn">Login</button>
+                <div class="user-profile hidden" id="userProfileBtn">
+                    <span class="profile-name"></span>
+                </div>
+            </div>
+        </div>
+    </header>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container">
-        <h1 class="hero-title">Discover Your Perfect Meal</h1>
-        <p class="hero-sub">From mood-based suggestions to dietary preferences, we help you find the perfect meal for every moment. Explore our curated collection of healthy, delicious recipes.</p>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">Discover Your Perfect Meal</h1>
+                <p class="hero-sub">From mood-based suggestions to dietary preferences, we help you find the perfect meal for every moment. Explore our curated collection of healthy, delicious recipes.</p>
 
-        <div class="mood-card">
-          <div class="mood-instructions">Tell us your mood for personalized suggestions <span class="optional">Optional - Skip if you prefer to browse all meals</span></div>
-          <div class="mood-controls">
-            <input id="mood" type="text" placeholder="e.g., energetic, relaxed, stressed..." />
+                <div class="mood-card">
+                    <div class="mood-instructions">Tell us your mood for personalized suggestions <span class="optional">Optional - Skip if you prefer to browse all meals</span></div>
+                    <div class="mood-controls">
+                    <select id="mood" aria-label="Select your mood for meal suggestions">
+                    <option value="" disabled selected>Select Your Mood</option>
+                    <option value="energetic">Energetic</option>
+                    <option value="relaxed">Relaxed</option>
+                    <option value="hungry">Hungry</option>
+                    <option value="stressed">Stressed</option>
+                    <option value="happy">Happy</option>
+                </select>
             <div class="mood-actions">
-              <button id="suggestBtn" class="btn inverted">Get Suggestions</button>
-              <button id="skipBtn" class="btn outline">Skip</button>
+        </div>
+    </div>
+            <button id="suggestBtn" class="btn inverted">Get Suggestions</button>
+            <button id="skipBtn" class="btn outline">Skip</button>
+         </div>
+    </div></div></div>
+</section>
+
+        <section class="featured">
+            <div class="container featured-inner">
+                <h2>Today's Featured Meals</h2>
+                <div class="featured-cards">
+                    <article class="f-card">
+                        <h3>Breakfast</h3>
+                        <p class="f-desc">Mediterranean Bowl with fresh avocado, quinoa, and eggs</p>
+                        <div class="cal">320 calories</div>
+                    </article>
+                    <article class="f-card">
+                        <h3>Lunch</h3>
+                        <p class="f-desc">Grilled Salmon with roasted vegetables and brown rice</p>
+                        <div class="cal">420 calories</div>
+                    </article>
+                    <article class="f-card">
+                        <h3>Dinner</h3>
+                        <p class="f-desc">Thai Green Curry with coconut milk and jasmine rice</p>
+                        <div class="cal">380 calories</div>
+                    </article>
+                </div>
             </div>
-          </div>
+        </section>
+
+        <section class="guide">
+            <div class="container guide-inner">
+                <h2>Your Guide to Healthy Living</h2>
+                <div class="guide-cards">
+                    <div class="g-card">
+                        <div class="g-ico">🥗</div>
+                        <h4>Balanced Nutrition</h4>
+                        <p>Include all food groups in your daily meals for optimal health and energy.</p>
+                    </div>
+                    <div class="g-card">
+                        <div class="g-ico">💧</div>
+                        <h4>Stay Hydrated</h4>
+                        <p>Drink at least 8 glasses of water daily to maintain proper body function.</p>
+                    </div>
+                    <div class="g-card">
+                        <div class="g-ico">⏰</div>
+                        <h4>Regular Timing</h4>
+                        <p>Eat meals at consistent times to regulate your metabolism and energy.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="categories">
+            <div class="container">
+                <h2>Explore Our Meal Categories</h2>
+                <div class="category-row">
+                    <button class="pill veg">🌿 Vegetarian</button>
+                    <button class="pill vegan">🥦 Vegan</button>
+                    <button class="pill nonveg">🍖 Non-Vegetarian</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="recipes">
+            <div class="container">
+                <div class="recipes-grid" id="recipes-grid">
+                  <script src="js/meals.js"></script>
+                </div>
+            </div>
+        </section>
+
+        <section class="instagram">
+            <div class="container">
+                <h2 style="text-align: center;">Follow Our Food Journey</h2>
+                <p class="sub" style="text-align: center;">Check out our latest food creations and healthy meal inspirations on Instagram</p>
+                <div style="margin-top: 40px;" class="insta-grid">
+                    <div class="insta-tile">Meal #1</div><div class="insta-tile">Meal #2</div>
+                    <div class="insta-tile">Meal #3</div><div class="insta-tile">Meal #4</div>
+                    <div class="insta-tile">Meal #5</div><div class="insta-tile">Meal #6</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <h3>Plan My Meal</h3>
+            <p>Your trusted companion for healthy eating and meal planning. Connect with us for daily inspiration!</p>
+            <div class="socials">
+                <div class="my-12">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-8">Follow Us</h3>
+                    <div class="flex justify-center space-x-4 mb-4">
+                        <a href="#" class="bg-gray-200 p-4 rounded-full hover:bg-gray-300 transition-colors">
+                            <i class="fab fa-twitter text-gray-600 text-xl"></i>
+                        </a>
+                        <a href="#" class="bg-gray-200 p-4 rounded-full hover:bg-gray-300 transition-colors">
+                            <i class="fab fa-facebook-f text-gray-600 text-xl"></i>
+                        </a>
+                        <a href="#" class="bg-gray-200 p-4 rounded-full hover:bg-gray-300 transition-colors">
+                            <i class="fab fa-instagram text-gray-600 text-xl"></i>
+                        </a>
+                        <a href="#" class="bg-gray-200 p-4 rounded-full hover:bg-gray-300 transition-colors">
+                            <i class="fab fa-pinterest-p text-gray-600 text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
+    </footer>
 
-    <!-- FEATURED -->
-    <section class="featured">
-      <div class="container featured-inner">
-        <h2>Today's Featured Meals</h2>
-        <div class="featured-cards">
-          <article class="f-card">
-            <h3>Breakfast</h3>
-            <p class="f-desc">Mediterranean Bowl with fresh avocado, quinoa, and eggs</p>
-            <div class="cal">320 calories</div>
-          </article>
-
-          <article class="f-card">
-            <h3>Lunch</h3>
-            <p class="f-desc">Grilled Salmon with roasted vegetables and brown rice</p>
-            <div class="cal">420 calories</div>
-          </article>
-
-          <article class="f-card">
-            <h3>Dinner</h3>
-            <p class="f-desc">Thai Green Curry with coconut milk and jasmine rice</p>
-            <div class="cal">380 calories</div>
-          </article>
+    <div id="suggestModal" class="modal">
+        <div class="modal-panel">
+            <button class="modal-close" aria-label="Close">×</button>
+            <h3>Meal suggestions</h3>
+            <div id="suggestList"></div>
         </div>
-      </div>
-    </section>
-
-    <!-- GUIDE -->
-    <section class="guide">
-      <div class="container guide-inner">
-        <h2>Your Guide to Healthy Living</h2>
-        <div class="guide-cards">
-          <div class="g-card">
-            <div class="g-ico">🥗</div>
-            <h4>Balanced Nutrition</h4>
-            <p>Include all food groups in your daily meals for optimal health and energy.</p>
-          </div>
-
-          <div class="g-card">
-            <div class="g-ico">💧</div>
-            <h4>Stay Hydrated</h4>
-            <p>Drink at least 8 glasses of water daily to maintain proper body function.</p>
-          </div>
-
-          <div class="g-card">
-            <div class="g-ico">⏰</div>
-            <h4>Regular Timing</h4>
-            <p>Eat meals at consistent times to regulate your metabolism and energy.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  
-
-    <!-- CATEGORIES -->
-    <section class="categories">
-      <div class="container">
-        <h2>Explore Our Meal Categories</h2>
-        <div class="category-row">
-          <button class="pill veg">🌿 Vegetarian</button>
-          <button class="pill vegan">🥦 Vegan</button>
-          <button class="pill nonveg">🍖 Non-Vegetarian</button>
-        </div>
-      </div>
-    </section>
+    </div>
     
-
-    <!-- RECIPES GRID -->
-    <section class="recipes">
-      <div class="container">
-        <div class="recipes-grid" id="recipes-grid"> 
-          <script src="js/meals.js"></script>
-          <!-- 8 example cards — structure matches screenshot -->
-          <!-- Recipe Card 1 -->
-
-    <!-- INSTAGRAM GRID -->
-    <section class="instagram">
-      <div class="container">
-        <h2 style="text-align: center;">Follow Our Food Journey</h2>
-        <p class="sub" style="text-align: center;">Check out our latest food creations and healthy meal inspirations on Instagram</p>
-
-        <div style="margin-top: 40px; "class="insta-grid">
-          <div class="insta-tile">Meal #1</div><div class="insta-tile">Meal #2</div>
-          <div class="insta-tile">Meal #3</div><div class="insta-tile">Meal #4</div>
-          <div class="insta-tile">Meal #5</div><div class="insta-tile">Meal #6</div>
+    <div id="loginModal" class="modal">
+        <div class="modal-panel">
+            <button class="modal-close" onclick="closeModal('loginModal')">×</button>
+            <h3><center>Login</center></h3>
+            <input type="email" id="loginEmail" placeholder="Email" />
+            <input type="password" id="loginPassword" placeholder="Password" />
+            <button class="btn primary" onclick="loginUser()">Login</button>
+            <p>Don't have an account? <span class="link-text" onclick="switchToSignup()">Signup</span></p>
         </div>
-      </div>
-    </section>
+    </div>
 
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <h3>Plan My Meal</h3>
-      <p>Your trusted companion for healthy eating and meal planning. Connect with us for daily inspiration!</p>
-      <div class="socials">
-        <div class="my-12">
-            <h3 class="text-2xl font-semibold text-gray-800 mb-8">Follow Us</h3>
-            <div class="flex justify-center space-x-4 mb-4">
-                <a href="#" class="bg-gray-200 p-4 rounded-full hover:bg-gray-300 transition-colors">
-                    <i class="fab fa-twitter text-gray-600 text-xl"></i>
-                </a>
-                <a href="#" class="bg-gray-200 p-4 rounded-full hover:bg-gray-300 transition-colors">
-                    <i class="fab fa-facebook-f text-gray-600 text-xl"></i>
-                </a>
-                <a href="#" class="bg-gray-200 p-4 rounded-full hover:bg-gray-300 transition-colors">
-                    <i class="fab fa-instagram text-gray-600 text-xl"></i>
-                </a>
-                <a href="#" class="bg-gray-200 p-4 rounded-full hover:bg-gray-300 transition-colors">
-                    <i class="fab fa-pinterest-p text-gray-600 text-xl"></i>
-                </a>
-            </div>
+    <div id="signupModal" class="modal">
+        <div class="modal-panel">
+            <button class="modal-close" onclick="closeModal('signupModal')">×</button>
+            <h3><center>Signup</center></h3>
+            <input type="text" id="signupName" placeholder="Full Name" />
+            <input type="email" id="signupEmail" placeholder="Email" />
+            <input type="password" id="signupPassword" placeholder="Password" />
+            <button class="btn primary" onclick="signupUser()">Signup</button>
+            <p>Already have an account? <span class="link-text" onclick="switchToLogin()">Login</span></p>
         </div>
-      </div>
     </div>
-  </footer>
 
-  <!-- Modal for suggestions -->
-  <div id="suggestModal" class="modal">
-    <div class="modal-panel">
-      <button class="modal-close" aria-label="Close">×</button>
-      <h3>Meal suggestions</h3>
-      <div id="suggestList"></div>
+    <div id="profileModal" class="modal">
+        <div class="modal-panel">
+            <button class="modal-close" onclick="closeModal('profileModal')">×</button>
+            <h3>User Profile</h3>
+            <p><strong>Name:</strong> <span id="profileName"></span></p>
+            <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+            <button class="btn primary" onclick="logoutUser()">Log Out</button>
+        </div>
     </div>
-  </div>
-
-  <script src="script.js"></script>
-  <script src="auth.js"></script>
-
-  <!-- Login Modal -->
-<div id="loginModal" class="modal">
-  <div class="modal-panel">
-    <button class="modal-close" onclick="closeModal('loginModal')">×</button>
-    <h3><center>Login</centre></h3>
-    <input type="email" id="loginEmail" placeholder="Email" />
-    <input type="password" id="loginPassword" placeholder="Password" />
-    <button class="btn primary" onclick="loginUser()">Login</button>
-    <p>Don't have an account? <span class="link-text" onclick="switchToSignup()">Signup</span></p>
-  </div>
-</div>
-
-<!-- Signup Modal -->
-<div id="signupModal" class="modal">
-  <div class="modal-panel">
-    <button class="modal-close" onclick="closeModal('signupModal')">×</button>
-    <h3><center>Signup</center></h3>
-    <input type="text" id="signupName" placeholder="Full Name" />
-    <input type="email" id="signupEmail" placeholder="Email" />
-    <input type="password" id="signupPassword" placeholder="Password" />
-    <button class="btn primary" onclick="signupUser()">Signup</button>
-    <p>Already have an account? <span class="link-text" onclick="switchToLogin()">Login</span></p>
-  </div>
-</div>
-<script src="js/script.js"></script>
-<script src="js/auth.js"></script>
-<!-- <script>
-  function addToFavorites(recipeName, recipeDesc) {
-    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    if (!favorites.some(f => f.name === recipeName)) {
-      favorites.push({ name: recipeName, description: recipeDesc });
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-      alert(recipeName + " added to favorites!");
-    } else {
-      alert(recipeName + " is already in your favorites!");
-    }
-  }
-</script> -->
+    <script src="js/script.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/index.js"></script>
+    <!-- <script>
+        function addToFavorites(recipeName, recipeDesc) {
+            let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+            if (!favorites.some(f => f.name === recipeName)) {
+                favorites.push({ name: recipeName, description: recipeDesc });
+                localStorage.setItem("favorites", JSON.stringify(favorites));
+                alert(recipeName + " added to favorites!");
+            } else {
+                alert(recipeName + " is already in your favorites!");
+            }
+        }
+    </script> -->
 </body>
-
 </html>
-

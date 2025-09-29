@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // LOGIN CHECK
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     if (!isLoggedIn) {
+        
         document.getElementById('loginModal').style.display = 'flex';
     }
 
-    // MOOD INPUT ELEMENTS
-    const moodInput = document.getElementById('mood');
+    const moodSelect = document.getElementById('mood');
     const suggestBtn = document.getElementById('suggestBtn');
     const skipBtn = document.getElementById('skipBtn');
     const suggestModal = document.getElementById('suggestModal');
@@ -21,35 +20,46 @@ document.addEventListener('DOMContentLoaded', () => {
         "Margherita Pizza",
         "Thai Green Curry",
         "BBQ Pulled Pork",
-        "Veggie Delight"
+        "Veggie Delight",
+        "Fruit Smoothie", 
+        "Spaghetti Bolognese" 
     ];
 
-    // MOOD TO MEALS MAPPING
+    
     const moodMap = {
-        energetic: ["Grilled Salmon", "Beef Tacos"],
-        relaxed: ["Vegetable Stir Fry", "Veggie Delight"],
-        hungry: ["Margherita Pizza", "BBQ Pulled Pork"]
+        energetic: ["Grilled Salmon", "Beef Tacos", "Fruit Smoothie"],
+        relaxed: ["Vegetable Stir Fry", "Veggie Delight", "Thai Green Curry"],
+        hungry: ["Margherita Pizza", "BBQ Pulled Pork", "Spaghetti Bolognese"],
+        stressed: ["Chocolate Brownies (treat yourself!)", "Fruit Smoothie"], 
+        happy: ["Chicken Caesar Salad", "Grilled Salmon", "Margherita Pizza"] 
     };
 
     // SUGGEST BUTTON
     suggestBtn.addEventListener('click', () => {
-        const mood = moodInput.value.toLowerCase().trim();
-        const filteredMeals = moodMap[mood] || meals; // if mood not found, show all meals
+    
+        const mood = moodSelect.value.toLowerCase().trim();
+        
+        if (mood === "") {
+             suggestList.innerHTML = "<p>Please select a mood first.</p>";
+             suggestModal.style.display = 'flex';
+             return; 
+        }
+        const filteredMeals = moodMap[mood] || meals; 
 
-        suggestList.innerHTML = filteredMeals.map(meal => `<p>${meal}</p>`).join('');
+        const suggestionHTML = filteredMeals.map(meal => `<p>${meal}</p>`).join('');
+        suggestList.innerHTML = suggestionHTML;
         suggestModal.style.display = 'flex';
     });
 
-    // SKIP BUTTON
-skipBtn.addEventListener('click', () => {
-    suggestList.innerHTML = "<p>Enjoy our meal options!</p>";
-    suggestModal.style.display = 'flex';
-});
+    skipBtn.addEventListener('click', () => {
+        suggestList.innerHTML = "<p>Enjoy our meal options! Feel free to browse the categories and recipes below.</p>";
+        suggestModal.style.display = 'flex';
+    });
 
-    // CLOSE MODAL
-    document.querySelectorAll('.modal-close').forEach(btn => {
+    document.querySelectorAll('#suggestModal .modal-close').forEach(btn => {
         btn.addEventListener('click', () => {
             suggestModal.style.display = 'none';
         });
     });
 });
+
