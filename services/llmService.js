@@ -73,7 +73,7 @@ async function callGroqAPI(prompt) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${GROQ_API}`
+                'Authorization': `Bearer ${process.env.GROQ_API}`
             },
             body: JSON.stringify(body)
         });
