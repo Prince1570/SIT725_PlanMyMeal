@@ -276,23 +276,13 @@ async function createUserProfile() {
   const dietaryType = document.getElementById("dietaryType").value;
 
   // Get selected allergies from checkboxes
-  const allergyCheckboxes = document.querySelectorAll(
-    'input[type="checkbox"][id^="allergy-"]:checked'
-  );
-  const allergies = Array.from(allergyCheckboxes)
-    .map((checkbox) => checkbox.value)
-    .filter((value) => value !== "none");
+  const allergyCheckboxes = document.querySelectorAll('input[type="checkbox"][id^="allergy-"]:checked');
+  const allergies = Array.from(allergyCheckboxes).map(checkbox => checkbox.value).filter(value => value !== 'none');
 
-  const calorieTarget = parseInt(
-    document.getElementById("calorieTarget").value
-  );
+  const calorieTarget = parseInt(document.getElementById("calorieTarget").value);
 
   if (!dietaryType || !calorieTarget) {
-    displayMessage(
-      profileSetupModal,
-      "Please fill in all required fields",
-      true
-    );
+    displayMessage(profileSetupModal, "Please fill in all required fields", true);
     return;
   }
 
@@ -300,13 +290,13 @@ async function createUserProfile() {
     const response = await fetch("http://localhost:3000/api/profile", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         dietaryType,
         allergies,
-        calorieTarget,
+        calorieTarget
       }),
     });
 
@@ -318,22 +308,25 @@ async function createUserProfile() {
       // Close setup modal and show profile
       setTimeout(() => {
         closeModal("profileSetupModal");
-        displayUserProfile();
+
+        // Check if user was trying to get recommendations before profile setup
+        const moodSelect = document.getElementById("mood");
+        if (moodSelect && moodSelect.value) {
+          // User had selected a mood, automatically trigger recommendations
+          if (typeof getMoodBasedRecommendations === 'function') {
+            getMoodBasedRecommendations();
+          }
+        } else {
+          // Just show profile if no mood was selected
+          displayUserProfile();
+        }
       }, 1500);
     } else {
-      displayMessage(
-        profileSetupModal,
-        data.message || "Failed to create profile",
-        true
-      );
+      displayMessage(profileSetupModal, data.message || "Failed to create profile", true);
     }
   } catch (error) {
     console.error("Error creating profile:", error);
-    displayMessage(
-      profileSetupModal,
-      "Something went wrong. Please try again.",
-      true
-    );
+    displayMessage(profileSetupModal, "Something went wrong. Please try again.", true);
   }
 }
 
