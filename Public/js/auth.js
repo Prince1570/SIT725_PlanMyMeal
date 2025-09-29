@@ -317,15 +317,6 @@ function displayProfileData(profile) {
   const user = profile.userId;
   document.getElementById("profileName").textContent = user.username || "N/A";
   document.getElementById("profileEmail").textContent = user.email || "N/A";
-  document.getElementById("profileGender").textContent = user.gender || "N/A";
-
-  // Format date of birth
-  if (user.dateOfBirth) {
-    const dob = new Date(user.dateOfBirth).toLocaleDateString();
-    document.getElementById("profileDOB").textContent = dob;
-  } else {
-    document.getElementById("profileDOB").textContent = "N/A";
-  }
 
   // Display profile specific info
   document.getElementById("profileDietaryType").textContent =
@@ -362,8 +353,6 @@ async function displayUserProfile() {
       <div class="profile-info">
         <p><strong>Name:</strong> <span id="profileName"></span></p>
         <p><strong>Email:</strong> <span id="profileEmail"></span></p>
-        <p><strong>Gender:</strong> <span id="profileGender"></span></p>
-        <p><strong>Date of Birth:</strong> <span id="profileDOB"></span></p>
         <p><strong>Dietary Type:</strong> <span id="profileDietaryType"></span></p>
         <p><strong>Allergies:</strong> <span id="profileAllergies"></span></p>
         <p><strong>Calorie Target (Per Meal):</strong> <span id="profileCalorieTarget"></span></p>
