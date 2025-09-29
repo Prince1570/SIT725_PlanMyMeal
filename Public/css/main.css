@@ -279,6 +279,15 @@ body{
 }
 
 /* Add to your main.css file */
+
+/* Option 1: Add margin-top to the button */
+#suggestBtn {
+    margin-top: 24px; /* Increase this value for more gap */
+}
+
+
+
+/* Add to your main.css file */
 .checkbox-group {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -349,6 +358,115 @@ body{
 .modal-panel {
     max-height: 90vh;
     overflow-y: auto;
+}
+
+/* Add to your main.css file */
+.recommendation-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 20px;
+}
+
+.recommendation-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.rec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.confidence {
+  background: #4a90a4;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.nutrition-info {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+}
+
+.nutrition-info span {
+  background: #f8f9fa;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.reasons {
+  margin: 15px 0;
+}
+
+.reason-tag {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  margin-right: 5px;
+  display: inline-block;
+  margin-bottom: 3px;
+}
+
+.meal-detail-modal .modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.meal-details p {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-style: italic;
+}
+
+.featured-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
 }
 
 

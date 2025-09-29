@@ -331,7 +331,7 @@ async function displayUserProfile() {
         <p><strong>Date of Birth:</strong> <span id="profileDOB"></span></p>
         <p><strong>Dietary Type:</strong> <span id="profileDietaryType"></span></p>
         <p><strong>Allergies:</strong> <span id="profileAllergies"></span></p>
-        <p><strong>Calorie Target:</strong> <span id="profileCalorieTarget"></span></p>
+        <p><strong>Calorie Target (Per Meal):</strong> <span id="profileCalorieTarget"></span></p>
       </div>
     `;
     displayProfileData(profile);
