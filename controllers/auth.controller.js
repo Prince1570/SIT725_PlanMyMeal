@@ -1,30 +1,20 @@
-import { User } from "../models/users.schema.js";
-import bcrypt from "bcryptjs";
+import { loginUser, registerUser } from "../services/auth.service.js";
 
 export const register = async (req, res, next) => {
-  try {
-    const { username, dateOfBirth, gender, password, email } = req.body;
-    const userExists = await User.findOne({ email });
+  const { username, dateOfBirth, gender, password, email } = req.body;
+  const user = await registerUser({
+    username,
+    dateOfBirth,
+    gender,
+    password,
+    email,
+  });
 
-    // check if user already exists
-    if (userExists) {
-      return res.status(400).json({ msg: "User already exists" });
-    }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+  return res.json({ user });
+};
 
-    // save user
-    const newUser = new User({
-      username,
-      password: hashedPassword,
-      email,
-      dateOfBirth,
-      gender,
-    });
-    await newUser.save();
-
-    return res.json({ msg: "User registered successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+export const login = async (req, res, next) => {
+  const { password, email } = req.body;
+  const user = await loginUser({ password, email });
+  return res.json({ user });
 };
