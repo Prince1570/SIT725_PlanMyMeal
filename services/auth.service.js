@@ -33,7 +33,7 @@ export const registerUser = async (data) => {
 export const loginUser = async (data) => {
   try {
     const { password, email } = data;
-    const SECRET_KEY = "secret_key_12345";
+    const SECRET_KEY = process.env.SECRET_KEY;
     const userExists = await User.findOne({ email });
 
     // check if user already exists
