@@ -1,13 +1,8 @@
 import { Favourite } from "../models/favourites.schema.js";
 
 export const listFavourites = async () => {
-  try {
-    const favourites = await Favourite.find();
-
-    return { msg: "Favourites listed successfully.", data: favourites };
-  } catch (error) {
-    throw error.message;
-  }
+  const favourites = await Favourite.find().populate("mealId");
+  return { msg: "Favourites listed successfully.", data: favourites };
 };
 
 export const addFavourites = async (data) => {
@@ -25,10 +20,10 @@ export const addFavourites = async (data) => {
 };
 
 export const removeFromFavourites = async (id) => {
-  try {
-    await Favourite.findByIdAndDelete(id);
-    return { message: "Favourites removed successfully" };
-  } catch (error) {
-    return { error: error.message };
+  const favouriteExists = await Favourite.findById(id);
+  if (!favouriteExists) {
+    throw new Error("No favourites found.");
   }
+  await Favourite.findByIdAndDelete(id);
+  return { message: "Favourites removed successfully" };
 };

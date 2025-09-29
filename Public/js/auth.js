@@ -70,7 +70,9 @@ function closeModal(modalId) {
 function updateHeaderUI(user) {
   const loginBtn = document.getElementById("loginBtn");
   const userProfileBtn = document.getElementById("userProfileBtn");
-  const profileNameSpan = document.querySelector("#userProfileBtn .profile-name");
+  const profileNameSpan = document.querySelector(
+    "#userProfileBtn .profile-name"
+  );
 
   if (user) {
     // User is logged in: Hide Login, Show User Profile
@@ -78,7 +80,9 @@ function updateHeaderUI(user) {
     userProfileBtn.classList.remove("hidden");
 
     // Display user's first name on the button
-    const firstName = user.name ? user.name.split(" ")[0] : user.username || "User";
+    const firstName = user.name
+      ? user.name.split(" ")[0]
+      : user.username || "User";
     profileNameSpan.textContent = firstName;
   } else {
     // User is logged out: Show Login, Hide User Profile
@@ -132,7 +136,11 @@ async function loginUser() {
       }
     } catch (error) {
       console.error("Error:", error);
-      displayMessage(loginModal, "Something went wrong. Please try again.", true);
+      displayMessage(
+        loginModal,
+        "Something went wrong. Please try again.",
+        true
+      );
     }
   } else {
     displayMessage(loginModal, "Please enter email and password", true);
@@ -172,11 +180,19 @@ async function signupUser() {
 
         console.log("Registration successful!", data.user);
       } else {
-        displayMessage(signupModal, data.message || "Registration failed", true);
+        displayMessage(
+          signupModal,
+          data.message || "Registration failed",
+          true
+        );
       }
     } catch (error) {
       console.error("Error:", error);
-      displayMessage(signupModal, "Something went wrong. Please try again.", true);
+      displayMessage(
+        signupModal,
+        "Something went wrong. Please try again.",
+        true
+      );
     }
   } else {
     displayMessage(signupModal, "Please fill all fields", true);
@@ -186,7 +202,7 @@ async function signupUser() {
 function logoutUser() {
   localStorage.removeItem("currentUser");
   localStorage.removeItem("authToken");
-  console.log("User logged out.");
+  console.log("User logged out."); // Use console log for system actions
 
   if (profileModal.style.display === "flex") {
     closeModal("profileModal");
@@ -208,7 +224,7 @@ async function fetchUserProfile() {
     const response = await fetch("http://localhost:3000/api/profile", {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -235,13 +251,23 @@ async function createUserProfile() {
   const dietaryType = document.getElementById("dietaryType").value;
 
   // Get selected allergies from checkboxes
-  const allergyCheckboxes = document.querySelectorAll('input[type="checkbox"][id^="allergy-"]:checked');
-  const allergies = Array.from(allergyCheckboxes).map(checkbox => checkbox.value).filter(value => value !== 'none');
+  const allergyCheckboxes = document.querySelectorAll(
+    'input[type="checkbox"][id^="allergy-"]:checked'
+  );
+  const allergies = Array.from(allergyCheckboxes)
+    .map((checkbox) => checkbox.value)
+    .filter((value) => value !== "none");
 
-  const calorieTarget = parseInt(document.getElementById("calorieTarget").value);
+  const calorieTarget = parseInt(
+    document.getElementById("calorieTarget").value
+  );
 
   if (!dietaryType || !calorieTarget) {
-    displayMessage(profileSetupModal, "Please fill in all required fields", true);
+    displayMessage(
+      profileSetupModal,
+      "Please fill in all required fields",
+      true
+    );
     return;
   }
 
@@ -249,13 +275,13 @@ async function createUserProfile() {
     const response = await fetch("http://localhost:3000/api/profile", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         dietaryType,
         allergies,
-        calorieTarget
+        calorieTarget,
       }),
     });
 
@@ -270,11 +296,19 @@ async function createUserProfile() {
         displayUserProfile();
       }, 1500);
     } else {
-      displayMessage(profileSetupModal, data.message || "Failed to create profile", true);
+      displayMessage(
+        profileSetupModal,
+        data.message || "Failed to create profile",
+        true
+      );
     }
   } catch (error) {
     console.error("Error creating profile:", error);
-    displayMessage(profileSetupModal, "Something went wrong. Please try again.", true);
+    displayMessage(
+      profileSetupModal,
+      "Something went wrong. Please try again.",
+      true
+    );
   }
 }
 
@@ -294,7 +328,8 @@ function displayProfileData(profile) {
   }
 
   // Display profile specific info
-  document.getElementById("profileDietaryType").textContent = profile.dietaryType || "N/A";
+  document.getElementById("profileDietaryType").textContent =
+    profile.dietaryType || "N/A";
   document.getElementById("profileAllergies").textContent =
     profile.allergies && profile.allergies.length > 0
       ? profile.allergies.join(", ")
@@ -347,19 +382,22 @@ function editProfile() {
   closeModal("profileModal");
 
   // Pre-fill the form with existing data if available
-  fetchUserProfile().then(profile => {
+  fetchUserProfile().then((profile) => {
     if (profile) {
       document.getElementById("dietaryType").value = profile.dietaryType || "";
-      document.getElementById("calorieTarget").value = profile.calorieTarget || "";
+      document.getElementById("calorieTarget").value =
+        profile.calorieTarget || "";
 
       // Clear all checkboxes first
-      document.querySelectorAll('input[type="checkbox"][id^="allergy-"]').forEach(checkbox => {
-        checkbox.checked = false;
-      });
+      document
+        .querySelectorAll('input[type="checkbox"][id^="allergy-"]')
+        .forEach((checkbox) => {
+          checkbox.checked = false;
+        });
 
       // Check the appropriate allergy checkboxes
       if (profile.allergies && profile.allergies.length > 0) {
-        profile.allergies.forEach(allergy => {
+        profile.allergies.forEach((allergy) => {
           const checkbox = document.getElementById(`allergy-${allergy}`);
           if (checkbox) {
             checkbox.checked = true;
@@ -367,7 +405,7 @@ function editProfile() {
         });
       } else {
         // If no allergies, check the "No allergies" option
-        const noneCheckbox = document.getElementById('allergy-none');
+        const noneCheckbox = document.getElementById("allergy-none");
         if (noneCheckbox) {
           noneCheckbox.checked = true;
         }
@@ -421,14 +459,16 @@ document.addEventListener("DOMContentLoaded", () => {
   window.editProfile = editProfile;
 
   // Handle "No allergies" checkbox logic
-  const noneCheckbox = document.getElementById('allergy-none');
-  const allergyCheckboxes = document.querySelectorAll('input[type="checkbox"][id^="allergy-"]:not(#allergy-none)');
+  const noneCheckbox = document.getElementById("allergy-none");
+  const allergyCheckboxes = document.querySelectorAll(
+    'input[type="checkbox"][id^="allergy-"]:not(#allergy-none)'
+  );
 
   if (noneCheckbox) {
-    noneCheckbox.addEventListener('change', function () {
+    noneCheckbox.addEventListener("change", function () {
       if (this.checked) {
         // If "No allergies" is checked, uncheck all other allergy checkboxes
-        allergyCheckboxes.forEach(checkbox => {
+        allergyCheckboxes.forEach((checkbox) => {
           checkbox.checked = false;
         });
       }
@@ -436,8 +476,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // If any specific allergy is checked, uncheck "No allergies"
-  allergyCheckboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function () {
+  allergyCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", function () {
       if (this.checked && noneCheckbox) {
         noneCheckbox.checked = false;
       }
@@ -451,16 +491,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function handleAllergiesChange() {
-  const allergySelect = document.getElementById('signupAllergies');
-  const customInput = document.getElementById('customAllergiesInput');
+  const allergySelect = document.getElementById("signupAllergies");
+  const customInput = document.getElementById("customAllergiesInput");
 
-  if (allergySelect.value === 'other') {
+  if (allergySelect.value === "other") {
     // If 'Other' is selected, show the text input and make it required
-    customInput.classList.remove('hidden');
-    customInput.setAttribute('required', 'required');
+    customInput.classList.remove("hidden");
+    customInput.setAttribute("required", "required");
   } else {
-    customInput.classList.add('hidden');
-    customInput.removeAttribute('required');
-    customInput.value = '';
+    customInput.classList.add("hidden");
+    customInput.removeAttribute("required");
+    customInput.value = "";
   }
 }

@@ -1,145 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Favourites - Plan My Meal</title>
-  <link rel="stylesheet" href="css/main.css" />
-  <style>
-    /* Page-specific styles (your main theme is still in css/style.css) */
-    .page-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #1f2d2d;
-      margin-bottom: 30px;
-      font-weight: 700;
-    }
-
-    .grid {
-      display: grid;
-      gap: 24px;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-    }
-
-    .card h2 {
-      color: #133c3c;
-      margin: 0 0 10px 0;
-      font-size: 20px;
-    }
-
-    .card p {
-      color: #555;
-      margin: 0 0 14px 0;
-      flex-grow: 1;
-    }
-
-    .remove-btn {
-      background: #dc3545;
-      color: #fff;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .remove-btn:hover {
-      filter: brightness(.92);
-    }
-
-    .empty {
-      text-align: center;
-      color: #666;
-      margin-top: 18px;
-    }
-  </style>
-</head>
-<body>
-  <!-- Header (same as homepage) -->
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="left-nav">
-        <nav class="links">
-          <a class="inactive-btn" href="index.html">Home</a>
-          <a class="inactive-btn" href="about.html">About</a>
-          <a class="inactive-btn" href="contact.html">Contact</a>
-          <a class="active-btn" href="favourites.html">Favorites</a>
-        </nav>
-      </div>
-
-      <div class="brand">Plan My Meal</div>
-
-      <div class="auth">
-        <button class="btn primary">Log Out</button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Favourites content -->
-  <div class="page-container">
-    <h1>My Favourite Meals</h1>
-
-    <div id="favouritesContainer" class="grid" aria-live="polite"></div>
-    <p id="emptyMessage" class="empty" style="display:none;">You haven’t added any favourites yet.</p>
-  </div>
-
-  <!-- JS to load/remove favourites -->
-  <script>
-    function loadFavourites() {
-      const container = document.getElementById("favouritesContainer");
-      const emptyMessage = document.getElementById("emptyMessage");
-
-      const favourites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-      container.innerHTML = "";
-
-      if (favourites.length === 0) {
-        emptyMessage.style.display = "block";
-        return;
-      } else {
-        emptyMessage.style.display = "none";
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Favourites - Plan My Meal</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <style>
+      /* Page-specific styles (your main theme is still in css/style.css) */
+      .page-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
       }
 
-      favourites.forEach((item, index) => {
-        const card = document.createElement("div");
-        card.className = "card";
+      h1 {
+        text-align: center;
+        color: #1f2d2d;
+        margin-bottom: 30px;
+        font-weight: 700;
+      }
 
-        card.innerHTML = `
-          <h2>${item.name}</h2>
-          <p>${item.description}</p>
-          <button class="remove-btn" onclick="removeFavourite(${index})">Remove</button>
+      .grid {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 18px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+      }
+
+      .card h2 {
+        color: #133c3c;
+        margin: 0 0 10px 0;
+        font-size: 20px;
+      }
+
+      .card p {
+        color: #555;
+        margin: 0 0 14px 0;
+        flex-grow: 1;
+      }
+
+      .remove-btn {
+        background: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .remove-btn:hover {
+        filter: brightness(0.92);
+      }
+
+      .empty {
+        text-align: center;
+        color: #666;
+        margin-top: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header (same as homepage) -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="left-nav">
+          <nav class="links">
+            <a class="inactive-btn" href="index.html">Home</a>
+            <a class="inactive-btn" href="about.html">About</a>
+            <a class="inactive-btn" href="contact.html">Contact</a>
+            <a class="active-btn" href="favourites.html">Favorites</a>
+          </nav>
+        </div>
+
+        <div class="brand">Plan My Meal</div>
+
+        <div class="auth">
+          <button class="btn primary">Log Out</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Favourites content -->
+    <div class="page-container">
+      <h1>My Favourite Meals</h1>
+
+      <div id="favouritesContainer" class="grid" aria-live="polite"></div>
+      <p id="emptyMessage" class="empty" style="display: none">
+        You haven’t added any favourites yet.
+      </p>
+    </div>
+
+    <!-- JS to load/remove favourites -->
+    <script>
+      async function loadFavourites() {
+        const container = document.getElementById("favouritesContainer");
+        const emptyMessage = document.getElementById("emptyMessage");
+
+        const response = await fetch("http://localhost:3000/api/favourites", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        });
+
+        container.innerHTML = "";
+        const favourites = await response.json();
+        if (favourites?.data.length === 0) {
+          emptyMessage.style.display = "block";
+          return;
+        } else {
+          emptyMessage.style.display = "none";
+        }
+
+        favourites?.data.forEach((item, index) => {
+          const card = document.createElement("div");
+          card.className = "card";
+
+          card.innerHTML = `
+          <h2>${item?.mealId.name}</h2>
+          <p>${item?.mealId.description}</p>
+          <button class="remove-btn" onclick="removeFavourite('${item?._id}')">Remove</button>
         `;
 
-        container.appendChild(card);
-      });
-    }
+          container.appendChild(card);
+        });
+      }
 
-    function removeFavourite(index) {
-      let favourites = JSON.parse(localStorage.getItem("favorites")) || [];
-      favourites.splice(index, 1);
-      localStorage.setItem("favorites", JSON.stringify(favourites));
-      loadFavourites();
-    }
+      async function removeFavourite(index) {
+        try {
+          let response = await fetch(
+            `http://localhost:3000/api/favourites/${index}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+              },
+            }
+          );
+          const favourites = await response.json();
+          if (response.ok) {
+            alert("Favourites removed successful!");
+            loadFavourites();
+          } else {
+            alert(data.message || "Something went wrong");
+          }
+        } catch (error) {
+          alert(error || "Something went wrong");
+        }
+      }
 
-    window.onload = loadFavourites;
-  </script>
-</body>
+      window.onload = loadFavourites;
+    </script>
+  </body>
 </html>

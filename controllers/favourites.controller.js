@@ -5,9 +5,13 @@ import {
 } from "../services/favourites.service.js";
 
 export const favouritesList = async (req, res, next) => {
-  const favourites = await listFavourites();
+  try {
+    const favourites = await listFavourites();
 
-  return res.json({ favourites });
+    res.status(200).json(favourites);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 export const addToFavourites = async (req, res, next) => {
@@ -22,7 +26,11 @@ export const addToFavourites = async (req, res, next) => {
 };
 
 export const removeFavourites = async (req, res, next) => {
-  const { id } = req.params;
-  const response = await removeFromFavourites(id);
-  return res.json({ response });
+  try {
+    const { id } = req.params;
+    const response = await removeFromFavourites(id);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
