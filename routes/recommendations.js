@@ -3,17 +3,16 @@ import { getRecommendations, seedUsers, getUserRecommendations } from '../contro
 
 const router = express.Router();
 
-// GET /api/recommendations (original route - backward compatible)
+// GET /api/recommendations (get recommendations for authenticated user)
 router.get('/', getRecommendations);
 
-// GET /api/recommendations/:mood (new route with mood parameter)
+// GET /api/recommendations/:mood (get recommendations with mood for authenticated user)
 router.get('/:mood', getRecommendations);
 
 // POST /api/recommendations/seed - for testing
 router.post('/seed', seedUsers);
 
-// GET /api/recommendations/:userId - get recommendations history for a specific user
-router.get("/user/:userId", getUserRecommendations);
-
+// GET /api/recommendations/history - get recommendations history for authenticated user
+router.get("/meal/history", getUserRecommendations);
 
 export default router;

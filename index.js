@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import favouritesRoutes from "./routes/favourites.js";
 import mealRoutes from "./routes/meals.js";
+import userProfileRoutes from "./routes/userProfile.js";
 
 dotenv.config();
 import express from "express";
@@ -36,6 +37,7 @@ app.use("/api/recommendations", recommendationsRouter);
 app.use(authRoutes);
 app.use("/api/favourites", favouritesRoutes);
 app.use("/api/meals", mealRoutes);
+app.use("/api/profile", userProfileRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
