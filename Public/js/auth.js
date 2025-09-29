@@ -163,14 +163,39 @@ async function signupUser() {
       });
 
       const data = await response.json();
+      console.log("Full server response:", data); // Debug log
 
       if (response.ok) {
-        // Store both token and user data
-        localStorage.setItem("authToken", data.user.token);
-        localStorage.setItem("currentUser", JSON.stringify(data.user));
+        // Check if the server returned user data with token
+        if (data.user && data.user.token) {
+          // Store both token and user data
+          localStorage.setItem("authToken", data.user.token);
+          localStorage.setItem("currentUser", JSON.stringify(data.user));
 
-        // Update UI immediately after successful signup
-        updateHeaderUI(data.user);
+          // Update UI immediately after successful signup
+          updateHeaderUI(data.user);
+        } else {
+          // If no token is returned, show success message but require login
+          displayMessage(
+            signupModal,
+            "Registration successful! Please log in.",
+            false
+          );
+
+          // Switch to login modal after a short delay
+          setTimeout(() => {
+            closeModal("signupModal");
+            openModal("loginModal");
+          }, 2000);
+
+          // Clear form fields
+          document.getElementById("signupName").value = "";
+          document.getElementById("signupEmail").value = "";
+          document.getElementById("signupPassword").value = "";
+
+          return; // Exit early since no token to save
+        }
+
         closeModal("signupModal");
 
         // Clear form fields
@@ -178,11 +203,11 @@ async function signupUser() {
         document.getElementById("signupEmail").value = "";
         document.getElementById("signupPassword").value = "";
 
-        console.log("Registration successful!", data.user);
+        console.log("Registration successful!", data);
       } else {
         displayMessage(
           signupModal,
-          data.message || "Registration failed",
+          data.message || data.msg || "Registration failed",
           true
         );
       }
@@ -251,23 +276,13 @@ async function createUserProfile() {
   const dietaryType = document.getElementById("dietaryType").value;
 
   // Get selected allergies from checkboxes
-  const allergyCheckboxes = document.querySelectorAll(
-    'input[type="checkbox"][id^="allergy-"]:checked'
-  );
-  const allergies = Array.from(allergyCheckboxes)
-    .map((checkbox) => checkbox.value)
-    .filter((value) => value !== "none");
+  const allergyCheckboxes = document.querySelectorAll('input[type="checkbox"][id^="allergy-"]:checked');
+  const allergies = Array.from(allergyCheckboxes).map(checkbox => checkbox.value).filter(value => value !== 'none');
 
-  const calorieTarget = parseInt(
-    document.getElementById("calorieTarget").value
-  );
+  const calorieTarget = parseInt(document.getElementById("calorieTarget").value);
 
   if (!dietaryType || !calorieTarget) {
-    displayMessage(
-      profileSetupModal,
-      "Please fill in all required fields",
-      true
-    );
+    displayMessage(profileSetupModal, "Please fill in all required fields", true);
     return;
   }
 
@@ -275,13 +290,13 @@ async function createUserProfile() {
     const response = await fetch("http://localhost:3000/api/profile", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         dietaryType,
         allergies,
-        calorieTarget,
+        calorieTarget
       }),
     });
 
@@ -293,22 +308,25 @@ async function createUserProfile() {
       // Close setup modal and show profile
       setTimeout(() => {
         closeModal("profileSetupModal");
-        displayUserProfile();
+
+        // Check if user was trying to get recommendations before profile setup
+        const moodSelect = document.getElementById("mood");
+        if (moodSelect && moodSelect.value) {
+          // User had selected a mood, automatically trigger recommendations
+          if (typeof getMoodBasedRecommendations === 'function') {
+            getMoodBasedRecommendations();
+          }
+        } else {
+          // Just show profile if no mood was selected
+          displayUserProfile();
+        }
       }, 1500);
     } else {
-      displayMessage(
-        profileSetupModal,
-        data.message || "Failed to create profile",
-        true
-      );
+      displayMessage(profileSetupModal, data.message || "Failed to create profile", true);
     }
   } catch (error) {
     console.error("Error creating profile:", error);
-    displayMessage(
-      profileSetupModal,
-      "Something went wrong. Please try again.",
-      true
-    );
+    displayMessage(profileSetupModal, "Something went wrong. Please try again.", true);
   }
 }
 
@@ -317,15 +335,6 @@ function displayProfileData(profile) {
   const user = profile.userId;
   document.getElementById("profileName").textContent = user.username || "N/A";
   document.getElementById("profileEmail").textContent = user.email || "N/A";
-  document.getElementById("profileGender").textContent = user.gender || "N/A";
-
-  // Format date of birth
-  if (user.dateOfBirth) {
-    const dob = new Date(user.dateOfBirth).toLocaleDateString();
-    document.getElementById("profileDOB").textContent = dob;
-  } else {
-    document.getElementById("profileDOB").textContent = "N/A";
-  }
 
   // Display profile specific info
   document.getElementById("profileDietaryType").textContent =
@@ -362,8 +371,6 @@ async function displayUserProfile() {
       <div class="profile-info">
         <p><strong>Name:</strong> <span id="profileName"></span></p>
         <p><strong>Email:</strong> <span id="profileEmail"></span></p>
-        <p><strong>Gender:</strong> <span id="profileGender"></span></p>
-        <p><strong>Date of Birth:</strong> <span id="profileDOB"></span></p>
         <p><strong>Dietary Type:</strong> <span id="profileDietaryType"></span></p>
         <p><strong>Allergies:</strong> <span id="profileAllergies"></span></p>
         <p><strong>Calorie Target (Per Meal):</strong> <span id="profileCalorieTarget"></span></p>
