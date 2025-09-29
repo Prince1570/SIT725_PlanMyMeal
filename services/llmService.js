@@ -1,4 +1,6 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
+import { Recommendation } from "../models/recommendation.schema.js"; // Change to named import
+
 const GROQ_API = process.env.GROQ_API;
 
 if (!GROQ_API) {
@@ -188,8 +190,25 @@ function parseResponse(responseJson) {
     }
 }
 
-module.exports = {
+async function getUserRecommendationsByUserId(userId) {
+    try {
+        const recommendations = await Recommendation.find({ userId })
+            .sort({ createdAt: -1 }); // Sort by newest first
+
+        return {
+            message: "User recommendations retrieved successfully",
+            data: recommendations
+        };
+    } catch (error) {
+        console.error("Error fetching user recommendations:", error);
+        throw new Error("Failed to fetch user recommendations");
+    }
+};
+
+
+export default {
     buildPrompt,
     callGroqAPI,
-    parseResponse
+    parseResponse,
+    getUserRecommendationsByUserId
 };
