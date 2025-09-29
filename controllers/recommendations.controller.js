@@ -1,6 +1,7 @@
 import llmService from '../services/llmService.js';
 import { UserProfile } from '../models/userProfile.schema.js';
 import { Recommendation } from '../models/recommendation.schema.js';
+import jwt from 'jsonwebtoken';
 
 const mockUsers = [
     {
@@ -43,13 +44,29 @@ const mockUsers = [
 async function getRecommendations(req, res) {
     try {
         const { mood } = req.params; // Get mood from URL parameter
-        const requestedId = (req.query && req.query.userId) || (req.body && req.body.userId);
+
+        // Extract JWT token from Authorization header
+        const token = req.headers.authorization?.split(' ')[1]; // Bearer token
+
+        if (!token) {
+            return res.status(401).json({ error: 'No token provided' });
+        }
+
+        let userId;
+        try {
+            // Verify and decode JWT token
+            const decoded = jwt.verify(token, process.env.SECRET_KEY);
+            userId = decoded.id;
+            console.log(`Decoded JWT for userId=${userId}`);
+        } catch (tokenError) {
+            return res.status(401).json({ error: 'Invalid token' });
+        }
 
         let user;
 
-        // Try to get user from database first
-        if (requestedId && requestedId.match(/^[0-9a-fA-F]{24}$/)) { // Check if it's a valid MongoDB ObjectId
-            const userProfile = await UserProfile.findOne({ userId: requestedId }).populate('userId');
+        // Try to get user from database using JWT userId
+        if (userId && userId.match(/^[0-9a-fA-F]{24}$/)) { // Check if it's a valid MongoDB ObjectId
+            const userProfile = await UserProfile.findOne({ userId }).populate('userId');
             if (userProfile) {
                 user = {
                     userId: userProfile.userId._id,
@@ -61,14 +78,10 @@ async function getRecommendations(req, res) {
             }
         }
 
-        // Fallback to mock users if no database user found
+        // Fallback to mock users if no database user found (for testing)
         if (!user) {
-            if (requestedId) {
-                user = mockUsers.find(u => u.userId === requestedId);
-                if (!user) user = mockUsers[2]; // fallback
-            } else {
-                user = mockUsers[2]; // default
-            }
+            console.warn('No user profile found in database, using mock user for testing');
+            user = mockUsers[2]; // default mock user
 
             // Override mood if provided in URL
             if (mood) {
