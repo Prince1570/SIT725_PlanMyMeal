@@ -216,3 +216,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   updateHeaderUI(currentUser);
 });
+
+function handleAllergiesChange() {
+    const allergySelect = document.getElementById('signupAllergies');
+    const customInput = document.getElementById('customAllergiesInput');
+    
+    if (allergySelect.value === 'other') {
+        // If 'Other' is selected, show the text input and make it required
+        customInput.classList.remove('hidden');
+        customInput.setAttribute('required', 'required');
+    } else {
+        // If any other option is selected, hide the input and clear its value
+        customInput.classList.add('hidden');
+        customInput.removeAttribute('required');
+        customInput.value = ''; // Clear any previous custom text
+    }
+}
