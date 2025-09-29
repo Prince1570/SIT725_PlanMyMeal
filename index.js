@@ -6,7 +6,7 @@ import cors from "cors";
 
 dotenv.config();
 import express from "express";
-// const express = require("express");
+// const express = require("express"
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -29,9 +29,8 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// routes
-// const recommendationsRouter = require("./routes/recommendations");
-app.use(recommendationsRouter);
+// routes - mount with proper base paths
+app.use('/api/recommendations', recommendationsRouter);
 app.use(authRoutes);
 
 app.listen(PORT, () => {

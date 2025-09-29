@@ -1,4 +1,6 @@
-const llmService = require('../services/llmService');
+import llmService from '../services/llmService.js';
+import { UserProfile } from '../models/userProfile.schema.js';
+import { Recommendation } from '../models/recommendation.schema.js';
 
 const mockUsers = [
     {
@@ -39,24 +41,62 @@ const mockUsers = [
 ];
 
 async function getRecommendations(req, res) {
-    // Allow selecting a mock user for testing via query param or request body.
-    // Example: GET /api/recommendations?userId=u2
-    const requestedId = (req.query && req.query.userId) || (req.body && req.body.userId);
-    let user;
-    if (requestedId) {
-        user = mockUsers.find(u => u.userId === requestedId);
-        if (!user) user = mockUsers[2]; // fallback
-    } else {
-        // For now, default to mockUsers[3]
-        user = mockUsers[2];
-    }
-
-    console.log(`recommendations: using user=${user.userId} dietaryType=${user.dietaryType} mood=${user.mood}`);
-
     try {
+        const { mood } = req.params; // Get mood from URL parameter
+        const requestedId = (req.query && req.query.userId) || (req.body && req.body.userId);
+
+        let user;
+
+        // Try to get user from database first
+        if (requestedId && requestedId.match(/^[0-9a-fA-F]{24}$/)) { // Check if it's a valid MongoDB ObjectId
+            const userProfile = await UserProfile.findOne({ userId: requestedId }).populate('userId');
+            if (userProfile) {
+                user = {
+                    userId: userProfile.userId._id,
+                    dietaryType: userProfile.dietaryType,
+                    allergies: userProfile.allergies,
+                    calorieTarget: userProfile.calorieTarget,
+                    mood: mood || 'light' // Use mood from URL or default
+                };
+            }
+        }
+
+        // Fallback to mock users if no database user found
+        if (!user) {
+            if (requestedId) {
+                user = mockUsers.find(u => u.userId === requestedId);
+                if (!user) user = mockUsers[2]; // fallback
+            } else {
+                user = mockUsers[2]; // default
+            }
+
+            // Override mood if provided in URL
+            if (mood) {
+                user = { ...user, mood: mood };
+            }
+        }
+
+        console.log(`recommendations: using user=${user.userId} dietaryType=${user.dietaryType} mood=${user.mood}`);
+
         const prompt = llmService.buildPrompt(user);
         const raw = await llmService.callGroqAPI(prompt);
         const parsed = llmService.parseResponse(raw);
+
+        // Save to database if user is from database (has ObjectId)
+        if (user.userId && user.userId.toString().match(/^[0-9a-fA-F]{24}$/)) {
+            try {
+                const recommendation = new Recommendation({
+                    userId: user.userId,
+                    mood: user.mood,
+                    items: parsed.items
+                });
+                await recommendation.save();
+                console.log('Recommendation saved to database');
+            } catch (dbError) {
+                console.warn('Failed to save recommendation to database:', dbError.message);
+                // Continue without saving to DB
+            }
+        }
 
         return res.json(parsed);
     } catch (err) {
@@ -65,6 +105,18 @@ async function getRecommendations(req, res) {
     }
 }
 
-module.exports = {
-    getRecommendations
+// Function to seed mock users (for testing)
+async function seedUsers(req, res) {
+    try {
+        const { seedMockUsers } = await import('../utils/seedUsers.js');
+        const result = await seedMockUsers();
+        return res.json(result);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+export {
+    getRecommendations,
+    seedUsers
 };

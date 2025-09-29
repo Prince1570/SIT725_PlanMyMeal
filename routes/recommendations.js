@@ -1,10 +1,15 @@
-const express = require('express');
+import express from 'express';
+import { getRecommendations, seedUsers } from '../controllers/recommendations.controller.js';
 
 const router = express.Router();
-const recommendationsController = require('../controllers/recommendations.controller');
 
-// Allow both GET (for browser testing) and POST (for API clients)
-router.get('/api/recommendations', recommendationsController.getRecommendations);
-router.post('/api/recommendations', recommendationsController.getRecommendations);
+// GET /api/recommendations (original route - backward compatible)
+router.get('/', getRecommendations);
 
-module.exports = router;
+// GET /api/recommendations/:mood (new route with mood parameter)
+router.get('/:mood', getRecommendations);
+
+// POST /api/recommendations/seed - for testing
+router.post('/seed', seedUsers);
+
+export default router;
