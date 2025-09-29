@@ -28,10 +28,10 @@ async function loginUser() {
       });
 
       const data = await response.json();
-
       if (response.ok) {
         localStorage.setItem("authToken", data.user.token);
         alert("Login successful!");
+        closeModal("loginModal");
       } else {
         alert(data.message || "Login failed");
       }

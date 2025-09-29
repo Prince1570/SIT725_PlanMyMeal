@@ -7,10 +7,10 @@ import {
 import { authenticateToken } from "../middleware/auth.js";
 const router = express.Router();
 
-router.get("/api/favourites", favouritesList);
+router.get("/", favouritesList);
 
-router.post("/api/addToFavourites", authenticateToken, addToFavourites);
+router.post("/add", authenticateToken, addToFavourites);
 
-router.delete("/api/favourites/:id", authenticateToken, removeFavourites);
+router.delete("/:id", authenticateToken, removeFavourites);
 
 export default router;

@@ -11,13 +11,17 @@ export const listFavourites = async () => {
 };
 
 export const addFavourites = async (data) => {
-  try {
-    const { mealId, userId } = data;
-    const favourites = await Favourite.insertOne({ mealId, userId });
-    return { message: "Favourites added successful", favourites };
-  } catch (error) {
-    return { error: error.message };
+  const { mealId, userId } = data;
+  const favouriteExists = await Favourite.findOne({ userId, mealId });
+  if (favouriteExists) {
+    throw new Error("This meal is already in your favourite list.");
   }
+  const favourites = new Favourite({
+    userId,
+    mealId,
+  });
+  await favourites.save();
+  return { message: "Favourites added successful" };
 };
 
 export const removeFromFavourites = async (id) => {
