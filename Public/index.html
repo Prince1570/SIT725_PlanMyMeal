@@ -184,17 +184,38 @@
         </div>
     </div>
 
-    <div id="signupModal" class="modal">
-        <div class="modal-panel">
-            <button class="modal-close" onclick="closeModal('signupModal')">×</button>
-            <h3><center>Signup</center></h3>
-            <input type="text" id="signupName" placeholder="Full Name" />
-            <input type="email" id="signupEmail" placeholder="Email" />
-            <input type="password" id="signupPassword" placeholder="Password" />
-            <button class="btn primary" onclick="signupUser()">Signup</button>
-            <p>Already have an account? <span class="link-text" onclick="switchToLogin()">Login</span></p>
-        </div>
+   <div id="signupModal" class="modal">
+    <div class="modal-panel">
+        <button class="modal-close" onclick="closeModal('signupModal')">×</button>
+        <h3><center>Signup</center></h3>
+        <input type="text" id="signupName" placeholder="Full Name" />
+        <input type="email" id="signupEmail" placeholder="Email" />
+        <input type="password" id="signupPassword" placeholder="Password" />
+        
+        <select id="signupDietaryType" aria-label="Select your preferred dietary type">
+            <option value="" disabled selected>Preferred Dietary Type</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="vegan">Vegan</option>
+            <option value="mediterranean">Nonvegetarian</option>
+        </select>
+        
+        <select id="signupAllergies" aria-label="Tell us if you have any allergies" onchange="handleAllergiesChange()">
+            <option value="" disabled selected>Allergies</option>
+            <option value="peanuts">Peanuts</option>
+            <option value="gluten">Gluten</option>
+            <option value="dairy">Dairy</option>
+            <option value="shellfish">Shellfish</option>
+            <option value="soy">Soy</option>
+            <option value="other">Other (Describe below)</option>
+        </select>
+        
+        <input type="text" id="customAllergiesInput" placeholder="Describe your allergies (e.g., Sesame, Eggs)" class="hidden" />
+        
+        <input type="number" id="signupCalorieTarget" placeholder="Daily Calorie Target" min="00" max="10000" />
+        <button class="btn primary" onclick="signupUser()">Signup</button>
+        <p>Already have an account? <span class="link-text" onclick="switchToLogin()">Login</span></p>
     </div>
+</div>
 
     <div id="profileModal" class="modal">
         <div class="modal-panel">
@@ -222,4 +243,5 @@
     </script> -->
 </body>
 </html>
+
 
