@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
 import recommendationsRouter from "./routes/recommendations.js";
 import dotenv from "dotenv";
+import cors from "cors";
+
 dotenv.config();
 import express from "express";
 // const express = require("express"
@@ -10,7 +12,8 @@ const PORT = process.env.PORT || 3000;
 
 // middleware
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static("public"));
+app.use(cors());
 
 // ✅ MongoDB connection
 mongoose
