@@ -1,6 +1,9 @@
 window.onload = () => {
   loadAllMeals();
   setupMoodSuggestions();
+
+  // Hide featured section initially
+  hideRecommendationsSection();
 };
 
 // Load all meals on page load
@@ -47,6 +50,7 @@ function setupMoodSuggestions() {
 function displayRecommendations(recommendations) {
   const featuredContainer = document.querySelector(".featured-cards");
   const recommendedTitle = document.getElementById("recommendedTitle");
+  const featuredSection = document.querySelector(".featured");
 
   if (!featuredContainer) {
     console.error("Featured cards container not found");
@@ -54,7 +58,12 @@ function displayRecommendations(recommendations) {
   }
 
   if (recommendations && recommendations.length > 0) {
-    // Show the title when we have recommendations
+    // Show the section and title when we have recommendations
+    if (featuredSection) {
+      featuredSection.classList.remove("empty");
+      featuredSection.style.display = "block";
+    }
+
     if (recommendedTitle) {
       recommendedTitle.classList.remove("hidden");
     }
@@ -85,10 +94,16 @@ function displayRecommendations(recommendations) {
       )
       .join("");
   } else {
-    // Hide the title and clear content when no recommendations
+    // Hide the entire section when no recommendations
+    if (featuredSection) {
+      featuredSection.classList.add("empty");
+      featuredSection.style.display = "none";
+    }
+
     if (recommendedTitle) {
       recommendedTitle.classList.add("hidden");
     }
+
     featuredContainer.innerHTML = '';
   }
 }
@@ -109,8 +124,11 @@ async function getMoodBasedRecommendations() {
     // Show loading state
     const featuredContainer = document.querySelector(".featured-cards");
     const recommendedTitle = document.getElementById("recommendedTitle");
+    const featuredSection = document.querySelector(".featured");
 
-    if (featuredContainer && recommendedTitle) {
+    if (featuredContainer && recommendedTitle && featuredSection) {
+      featuredSection.classList.remove("empty");
+      featuredSection.style.display = "block";
       recommendedTitle.classList.remove("hidden");
       featuredContainer.innerHTML = '<div class="loading">Loading recommendations...</div>';
     }
@@ -137,34 +155,38 @@ async function getMoodBasedRecommendations() {
     } else {
       console.error("Error fetching recommendations:", data);
 
-      // Hide the section if there's an error
-      const recommendedTitle = document.getElementById("recommendedTitle");
-      const featuredContainer = document.querySelector(".featured-cards");
-
-      if (recommendedTitle) {
-        recommendedTitle.classList.add("hidden");
-      }
-      if (featuredContainer) {
-        featuredContainer.innerHTML = '';
-      }
+      // Hide the entire section if there's an error
+      hideRecommendationsSection();
 
       alert(data.error || "Failed to get recommendations");
     }
   } catch (error) {
     console.error("Error:", error);
 
-    // Hide the section if there's an error
-    const recommendedTitle = document.getElementById("recommendedTitle");
-    const featuredContainer = document.querySelector(".featured-cards");
-
-    if (recommendedTitle) {
-      recommendedTitle.classList.add("hidden");
-    }
-    if (featuredContainer) {
-      featuredContainer.innerHTML = '';
-    }
+    // Hide the entire section if there's an error
+    hideRecommendationsSection();
 
     alert("Something went wrong while fetching recommendations");
+  }
+}
+
+// Helper function to hide recommendations section
+function hideRecommendationsSection() {
+  const recommendedTitle = document.getElementById("recommendedTitle");
+  const featuredContainer = document.querySelector(".featured-cards");
+  const featuredSection = document.querySelector(".featured");
+
+  if (featuredSection) {
+    featuredSection.classList.add("empty");
+    featuredSection.style.display = "none";
+  }
+
+  if (recommendedTitle) {
+    recommendedTitle.classList.add("hidden");
+  }
+
+  if (featuredContainer) {
+    featuredContainer.innerHTML = '';
   }
 }
 

@@ -485,4 +485,207 @@ body{
   display: none;
 }
 
+/* Add to your main.css file */
+
+/* Mood pills styling */
+.mood-pill {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 5px;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.mood-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mood-pill.active {
+  background: linear-gradient(135deg, #4a90a4 0%, #2c5364 100%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* History container */
+.history-container {
+  margin-top: 30px;
+}
+
+.mood-history {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  animation: slideDown 0.3s ease-out;
+}
+
+.mood-history h3 {
+  color: #333;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #4a90a4;
+  padding-bottom: 10px;
+}
+
+/* History sessions */
+.history-session {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.session-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.session-date {
+  font-weight: 600;
+  color: #495057;
+}
+
+.session-count {
+  background: #4a90a4;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+/* History meal cards */
+.session-meals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.history-meal-card {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.history-meal-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  border-color: #4a90a4;
+}
+
+.history-meal-card h4 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.meal-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.meal-meta .calories {
+  background: #28a745;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.meal-meta .confidence {
+  background: #17a2b8;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.meal-ingredients {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hidden class */
+.hidden {
+  display: none !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .session-meals {
+    grid-template-columns: 1fr;
+  }
+  
+  .mood-pill {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  
+  .session-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}
+
+/* Add to your main.css file */
+
+/* Hide featured section when empty */
+.featured.empty {
+  display: none !important;
+}
+
+.featured {
+  /* Remove any default background or padding when empty */
+  transition: all 0.3s ease;
+}
+
+/* Only show background and styling when content is present */
+.featured:not(.empty) {
+  /* Add your existing featured section styling here */
+  background-color: your-green-color; /* Replace with your actual green background */
+  padding: 40px 0;
+}
+
+/* Hide the entire container when no cards */
+.featured-cards:empty + * {
+  display: none;
+}
+
+.featured-inner:has(.featured-cards:empty) {
+  display: none;
+}
+
+/* Alternative approach - hide when title is hidden */
+.featured:has(#recommendedTitle.hidden) {
+  display: none;
+}
+
 
