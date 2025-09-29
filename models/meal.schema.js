@@ -1,8 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import { MealCategories } from "../common/enum/categories.enum";
+import { MealCategories } from "../common/enum/categories.enum.js";
 
 const MealSchema = new Schema({
-  userId: { type: ObjectId, ref: "User" },
   name: { type: String, required: true },
   description: { type: String, required: true },
   calories: { type: Number, required: true },
@@ -10,4 +9,4 @@ const MealSchema = new Schema({
   categories: { type: String, enum: MealCategories },
 });
 
-export const MealFavourite = mongoose.model("Meal", MealSchema);
+export const Meal = mongoose.model("Meal", MealSchema);

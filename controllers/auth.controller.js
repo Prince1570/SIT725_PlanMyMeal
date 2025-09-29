@@ -1,20 +1,28 @@
 import { loginUser, registerUser } from "../services/auth.service.js";
 
 export const register = async (req, res, next) => {
-  const { username, dateOfBirth, gender, password, email } = req.body;
-  const user = await registerUser({
-    username,
-    dateOfBirth,
-    gender,
-    password,
-    email,
-  });
+  try {
+    const { username, dateOfBirth, gender, password, email } = req.body;
+    const user = await registerUser({
+      username,
+      dateOfBirth,
+      gender,
+      password,
+      email,
+    });
 
-  return res.json({ user });
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
 };
 
 export const login = async (req, res, next) => {
-  const { password, email } = req.body;
-  const user = await loginUser({ password, email });
-  return res.json({ user });
+  try {
+    const { password, email } = req.body;
+    const user = await loginUser({ password, email });
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
 };

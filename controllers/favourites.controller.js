@@ -11,10 +11,14 @@ export const favouritesList = async (req, res, next) => {
 };
 
 export const addToFavourites = async (req, res, next) => {
-  const { mealId } = req.body;
-  const loggedUser = req.user;
-  const favourites = await addFavourites({ mealId, userId: loggedUser._id });
-  return res.json({ favourites });
+  try {
+    const { mealId } = req.body;
+    const loggedUser = req.user;
+    const favourites = await addFavourites({ mealId, userId: loggedUser.id });
+    return res.status(200).json(favourites);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 export const removeFavourites = async (req, res, next) => {
