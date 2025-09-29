@@ -3,6 +3,7 @@ import authRoutes from "./routes/auth.js";
 import recommendationsRouter from "./routes/recommendations.js";
 import dotenv from "dotenv";
 import cors from "cors";
+import favouritesRouter from "./routes/favourites.js";
 
 dotenv.config();
 import express from "express";
@@ -33,6 +34,7 @@ app.get("/health", (req, res) => {
 // const recommendationsRouter = require("./routes/recommendations");
 app.use(recommendationsRouter);
 app.use(authRoutes);
+app.use(favouritesRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
