@@ -469,4 +469,20 @@ body{
   margin-top: 20px;
 }
 
+/* Add to your main.css file */
+.hidden {
+  display: none !important;
+}
+
+/* Update the featured section to handle empty state */
+.featured {
+  padding: 40px 0;
+  min-height: auto;
+}
+
+.featured:empty,
+.featured-cards:empty {
+  display: none;
+}
+
 

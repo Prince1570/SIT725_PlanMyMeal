@@ -43,68 +43,23 @@ function setupMoodSuggestions() {
   }
 }
 
-// Get mood-based recommendations
-async function getMoodBasedRecommendations() {
-  const moodSelect = document.getElementById("mood");
-  const selectedMood = moodSelect.value;
-
-  if (!selectedMood) {
-    alert("Please select your mood first!");
-    return;
-  }
-
-  const token = localStorage.getItem("authToken");
-
-  try {
-    // Show loading state
-    const featuredContainer = document.querySelector(".featured-cards");
-    if (featuredContainer) {
-      featuredContainer.innerHTML = '<div class="loading">Loading recommendations...</div>';
-    }
-
-    const response = await fetch(`http://localhost:3000/api/recommendations/${selectedMood}`, {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      displayRecommendations(data.items);
-
-      // Scroll to recommendations section
-      document.querySelector('.featured').scrollIntoView({
-        behavior: 'smooth'
-      });
-    } else {
-      console.error("Error fetching recommendations:", data);
-      alert(data.error || "Failed to get recommendations");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Something went wrong while fetching recommendations");
-  }
-}
-
 // Display recommendations in the featured section
 function displayRecommendations(recommendations) {
   const featuredContainer = document.querySelector(".featured-cards");
+  const recommendedTitle = document.getElementById("recommendedTitle");
 
   if (!featuredContainer) {
-    // Create the featured-cards container if it doesn't exist
-    const featuredInner = document.querySelector(".featured-inner");
-    if (featuredInner) {
-      featuredInner.innerHTML += '<div class="featured-cards"></div>';
-    }
+    console.error("Featured cards container not found");
+    return;
   }
 
-  const container = document.querySelector(".featured-cards");
+  if (recommendations && recommendations.length > 0) {
+    // Show the title when we have recommendations
+    if (recommendedTitle) {
+      recommendedTitle.classList.remove("hidden");
+    }
 
-  if (container && recommendations && recommendations.length > 0) {
-    container.innerHTML = recommendations
+    featuredContainer.innerHTML = recommendations
       .map(
         (meal) => `
         <article class="recommendation-card" onclick="showRecommendationDetails('${meal.meal_id}', '${meal.title}', '${meal.ingredients.join(", ")}', '${meal.nutrition.kcal}', '${meal.reasons.join(", ")}', '${meal.confidence}')">
@@ -129,8 +84,87 @@ function displayRecommendations(recommendations) {
       `
       )
       .join("");
-  } else if (container) {
-    container.innerHTML = '<p>No recommendations found for your selected mood. Try a different mood!</p>';
+  } else {
+    // Hide the title and clear content when no recommendations
+    if (recommendedTitle) {
+      recommendedTitle.classList.add("hidden");
+    }
+    featuredContainer.innerHTML = '';
+  }
+}
+
+// Get mood-based recommendations
+async function getMoodBasedRecommendations() {
+  const moodSelect = document.getElementById("mood");
+  const selectedMood = moodSelect.value;
+
+  if (!selectedMood) {
+    alert("Please select your mood first!");
+    return;
+  }
+
+  const token = localStorage.getItem("authToken");
+
+  try {
+    // Show loading state
+    const featuredContainer = document.querySelector(".featured-cards");
+    const recommendedTitle = document.getElementById("recommendedTitle");
+
+    if (featuredContainer && recommendedTitle) {
+      recommendedTitle.classList.remove("hidden");
+      featuredContainer.innerHTML = '<div class="loading">Loading recommendations...</div>';
+    }
+
+    const response = await fetch(`http://localhost:3000/api/recommendations/${selectedMood}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      displayRecommendations(data.items);
+
+      // Scroll to recommendations section only if we have recommendations
+      if (data.items && data.items.length > 0) {
+        document.querySelector('.featured').scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+    } else {
+      console.error("Error fetching recommendations:", data);
+
+      // Hide the section if there's an error
+      const recommendedTitle = document.getElementById("recommendedTitle");
+      const featuredContainer = document.querySelector(".featured-cards");
+
+      if (recommendedTitle) {
+        recommendedTitle.classList.add("hidden");
+      }
+      if (featuredContainer) {
+        featuredContainer.innerHTML = '';
+      }
+
+      alert(data.error || "Failed to get recommendations");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+
+    // Hide the section if there's an error
+    const recommendedTitle = document.getElementById("recommendedTitle");
+    const featuredContainer = document.querySelector(".featured-cards");
+
+    if (recommendedTitle) {
+      recommendedTitle.classList.add("hidden");
+    }
+    if (featuredContainer) {
+      featuredContainer.innerHTML = '';
+    }
+
+    alert("Something went wrong while fetching recommendations");
   }
 }
 
