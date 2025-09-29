@@ -132,7 +132,21 @@ async function seedUsers(req, res) {
 // Add this new controller function
 export const getUserRecommendations = async (req, res, next) => {
     try {
-        const { userId } = req.params;
+        // Extract JWT token from Authorization header
+        const token = req.headers.authorization?.split(' ')[1]; // Bearer token
+
+        if (!token) {
+            return res.status(401).json({ error: 'No token provided' });
+        }
+
+        let userId;
+        try {
+            // Verify and decode JWT token
+            const decoded = jwt.verify(token, process.env.SECRET_KEY);
+            userId = decoded.id;
+        } catch (tokenError) {
+            return res.status(401).json({ error: 'Invalid token' });
+        }
 
         const recommendations = await llmService.getUserRecommendationsByUserId(userId);
 

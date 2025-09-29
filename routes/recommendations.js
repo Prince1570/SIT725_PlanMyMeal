@@ -12,7 +12,7 @@ router.get('/:mood', getRecommendations);
 // POST /api/recommendations/seed - for testing
 router.post('/seed', seedUsers);
 
-// GET /api/recommendations/user/:userId - get recommendations history for a specific user (for admin/testing)
-router.get("/user/:userId", getUserRecommendations);
+// GET /api/recommendations/history - get recommendations history for authenticated user
+router.get("/meal/history", getUserRecommendations);
 
 export default router;
