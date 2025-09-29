@@ -163,14 +163,39 @@ async function signupUser() {
       });
 
       const data = await response.json();
+      console.log("Full server response:", data); // Debug log
 
       if (response.ok) {
-        // Store both token and user data
-        localStorage.setItem("authToken", data.user.token);
-        localStorage.setItem("currentUser", JSON.stringify(data.user));
+        // Check if the server returned user data with token
+        if (data.user && data.user.token) {
+          // Store both token and user data
+          localStorage.setItem("authToken", data.user.token);
+          localStorage.setItem("currentUser", JSON.stringify(data.user));
 
-        // Update UI immediately after successful signup
-        updateHeaderUI(data.user);
+          // Update UI immediately after successful signup
+          updateHeaderUI(data.user);
+        } else {
+          // If no token is returned, show success message but require login
+          displayMessage(
+            signupModal,
+            "Registration successful! Please log in.",
+            false
+          );
+
+          // Switch to login modal after a short delay
+          setTimeout(() => {
+            closeModal("signupModal");
+            openModal("loginModal");
+          }, 2000);
+
+          // Clear form fields
+          document.getElementById("signupName").value = "";
+          document.getElementById("signupEmail").value = "";
+          document.getElementById("signupPassword").value = "";
+
+          return; // Exit early since no token to save
+        }
+
         closeModal("signupModal");
 
         // Clear form fields
@@ -178,11 +203,11 @@ async function signupUser() {
         document.getElementById("signupEmail").value = "";
         document.getElementById("signupPassword").value = "";
 
-        console.log("Registration successful!", data.user);
+        console.log("Registration successful!", data);
       } else {
         displayMessage(
           signupModal,
-          data.message || "Registration failed",
+          data.message || data.msg || "Registration failed",
           true
         );
       }
