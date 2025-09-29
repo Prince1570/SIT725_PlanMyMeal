@@ -29,6 +29,7 @@
             <div class="auth">
                 <button class="btn ghost" id="loginBtn">Login</button>
                 <div class="user-profile hidden" id="userProfileBtn">
+                    <i class="fas fa-user-circle"></i>
                     <span class="profile-name"></span>
                 </div>
             </div>
@@ -42,44 +43,31 @@
                 <p class="hero-sub">From mood-based suggestions to dietary preferences, we help you find the perfect meal for every moment. Explore our curated collection of healthy, delicious recipes.</p>
 
                 <div class="mood-card">
-                    <div class="mood-instructions">Tell us your mood for personalized suggestions <span class="optional">Optional - Skip if you prefer to browse all meals</span></div>
-                    <div class="mood-controls">
-                    <select id="mood" aria-label="Select your mood for meal suggestions">
+                    <div class="mood-instructions">Tell us your mood for personalized suggestions</div>
+                    <div class="mood-controls" >
+                    <select id="mood" aria-label="Select your mood for meal suggestions" >
                     <option value="" disabled selected>Select Your Mood</option>
+                    <option value="comforting">Comforting</option>
                     <option value="energetic">Energetic</option>
-                    <option value="relaxed">Relaxed</option>
-                    <option value="hungry">Hungry</option>
-                    <option value="stressed">Stressed</option>
-                    <option value="happy">Happy</option>
+                    <option value="light">Light</option>
+                    <option value="festive">Festive</option>
+                    <option value="quick-and-easy">Quick & Easy</option>
                 </select>
             <div class="mood-actions">
         </div>
     </div>
-            <button id="suggestBtn" class="btn inverted">Get Suggestions</button>
-            <button id="skipBtn" class="btn outline">Skip</button>
+            <button id="suggestBtn" class="btn inverted" >Get Suggestions</button>
+            <!-- <button id="skipBtn" class="btn outline">Skip</button> -->
          </div>
     </div></div></div>
+    
 </section>
 
         <section class="featured">
             <div class="container featured-inner">
-                <h2>Today's Featured Meals</h2>
-                <div class="featured-cards">
-                    <article class="f-card">
-                        <h3>Breakfast</h3>
-                        <p class="f-desc">Mediterranean Bowl with fresh avocado, quinoa, and eggs</p>
-                        <div class="cal">320 calories</div>
-                    </article>
-                    <article class="f-card">
-                        <h3>Lunch</h3>
-                        <p class="f-desc">Grilled Salmon with roasted vegetables and brown rice</p>
-                        <div class="cal">420 calories</div>
-                    </article>
-                    <article class="f-card">
-                        <h3>Dinner</h3>
-                        <p class="f-desc">Thai Green Curry with coconut milk and jasmine rice</p>
-                        <div class="cal">380 calories</div>
-                    </article>
+                <h2 id="recommendedTitle" class="hidden">Recommended Meals</h2>
+                <div class="featured-cards" id="featuredCards">
+                    <!-- Recommendations will be dynamically inserted here -->
                 </div>
             </div>
         </section>
@@ -109,11 +97,9 @@
 
         <section class="categories">
             <div class="container">
-                <h2>Explore Our Meal Categories</h2>
+                <h2>Your Meal History</h2>
                 <div class="category-row">
-                    <button class="pill veg">🌿 Vegetarian</button>
-                    <button class="pill vegan">🥦 Vegan</button>
-                    <button class="pill nonveg">🍖 Non-Vegetarian</button>
+                    <!-- Mood-based pills will be dynamically inserted here -->
                 </div>
             </div>
         </section>
@@ -126,17 +112,7 @@
             </div>
         </section>
 
-        <section class="instagram">
-            <div class="container">
-                <h2 style="text-align: center;">Follow Our Food Journey</h2>
-                <p class="sub" style="text-align: center;">Check out our latest food creations and healthy meal inspirations on Instagram</p>
-                <div style="margin-top: 40px;" class="insta-grid">
-                    <div class="insta-tile">Meal #1</div><div class="insta-tile">Meal #2</div>
-                    <div class="insta-tile">Meal #3</div><div class="insta-tile">Meal #4</div>
-                    <div class="insta-tile">Meal #5</div><div class="insta-tile">Meal #6</div>
-                </div>
-            </div>
-        </section>
+
     </main>
 
     <footer class="site-footer">
@@ -165,13 +141,7 @@
         </div>
     </footer>
 
-    <div id="suggestModal" class="modal">
-        <div class="modal-panel">
-            <button class="modal-close" aria-label="Close">×</button>
-            <h3>Meal suggestions</h3>
-            <div id="suggestList"></div>
-        </div>
-    </div>
+ 
     
     <div id="loginModal" class="modal">
         <div class="modal-panel">
@@ -191,27 +161,7 @@
         <input type="text" id="signupName" placeholder="Full Name" />
         <input type="email" id="signupEmail" placeholder="Email" />
         <input type="password" id="signupPassword" placeholder="Password" />
-        
-        <select id="signupDietaryType" aria-label="Select your preferred dietary type">
-            <option value="" disabled selected>Preferred Dietary Type</option>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="vegan">Vegan</option>
-            <option value="mediterranean">Nonvegetarian</option>
-        </select>
-        
-        <select id="signupAllergies" aria-label="Tell us if you have any allergies" onchange="handleAllergiesChange()">
-            <option value="" disabled selected>Allergies</option>
-            <option value="peanuts">Peanuts</option>
-            <option value="gluten">Gluten</option>
-            <option value="dairy">Dairy</option>
-            <option value="shellfish">Shellfish</option>
-            <option value="soy">Soy</option>
-            <option value="other">Other (Describe below)</option>
-        </select>
-        
-        <input type="text" id="customAllergiesInput" placeholder="Describe your allergies (e.g., Sesame, Eggs)" class="hidden" />
-        
-        <input type="number" id="signupCalorieTarget" placeholder="Daily Calorie Target" min="00" max="10000" />
+
         <button class="btn primary" onclick="signupUser()">Signup</button>
         <p>Already have an account? <span class="link-text" onclick="switchToLogin()">Login</span></p>
     </div>
@@ -221,13 +171,98 @@
         <div class="modal-panel">
             <button class="modal-close" onclick="closeModal('profileModal')">×</button>
             <h3>User Profile</h3>
-            <p><strong>Name:</strong> <span id="profileName"></span></p>
-            <p><strong>Email:</strong> <span id="profileEmail"></span></p>
-            <button class="btn primary" onclick="logoutUser()">Log Out</button>
+            <div id="profileContent">
+                <div class="profile-info">
+                    <p><strong>Name:</strong> <span id="profileName"></span></p>
+                    <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                    <p><strong>Gender:</strong> <span id="profileGender"></span></p>
+                    <p><strong>Date of Birth:</strong> <span id="profileDOB"></span></p>
+                    <p><strong>Dietary Type:</strong> <span id="profileDietaryType"></span></p>
+                    <p><strong>Allergies:</strong> <span id="profileAllergies"></span></p>
+                    <p><strong>Calorie Target (Per Meal):</strong> <span id="profileCalorieTarget"></span></p>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <!-- <button class="btn secondary" onclick="editProfile()">Edit Profile</button> -->
+                <button class="btn primary" onclick="logoutUser()">Log Out</button>
+            </div>
         </div>
     </div>
+
+    <!-- Profile Creation Modal -->
+    <div id="profileSetupModal" class="modal">
+        <div class="modal-panel">
+            <h3>Complete Your Profile</h3>
+            <p>Please provide some additional information to personalize your meal planning experience.</p>
+            
+            <div class="form-group">
+                <label for="dietaryType">Dietary Preference:</label>
+                <select id="dietaryType" required>
+                    <option value="">Select dietary type</option>
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="vegan">Vegan</option>
+                    <option value="omnivore">Omnivore</option>
+                    <option value="pescatarian">Pescatarian</option>
+                    <option value="keto">Keto</option>
+                    <option value="paleo">Paleo</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Allergies (select all that apply):</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="allergy-peanuts" value="peanuts">
+                        <label for="allergy-peanuts">Peanuts</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="allergy-shellfish" value="shellfish">
+                        <label for="allergy-shellfish">Shellfish</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="allergy-dairy" value="dairy">
+                        <label for="allergy-dairy">Dairy</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="allergy-eggs" value="eggs">
+                        <label for="allergy-eggs">Eggs</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="allergy-soy" value="soy">
+                        <label for="allergy-soy">Soy</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="allergy-gluten" value="gluten">
+                        <label for="allergy-gluten">Gluten</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="allergy-tree-nuts" value="tree-nuts">
+                        <label for="allergy-tree-nuts">Tree Nuts</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="allergy-fish" value="fish">
+                        <label for="allergy-fish">Fish</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="allergy-none" value="none">
+                        <label for="allergy-none">No allergies</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="calorieTarget">Daily Calorie Target Per Meal:</label>
+                <input type="number" id="calorieTarget" min="1000" max="5000" step="50" placeholder="e.g., 2000" required>
+            </div>
+
+            <button class="btn primary" onclick="createUserProfile()">Save Profile</button>
+        </div>
+    </div>
+
     <script src="js/script.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/meals.js"></script>
+    <script src="js/mealHistory.js"></script>
     <script src="js/index.js"></script>
     <!-- <script>
         function addToFavorites(recipeName, recipeDesc) {
