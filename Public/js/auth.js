@@ -110,6 +110,7 @@ async function loginUser() {
       if (response.ok) {
         localStorage.setItem("authToken", data.user.token);
         alert("Login successful!");
+        closeModal("loginModal");
       } else {
         alert(data.message || "Login failed");
       }
@@ -159,6 +160,7 @@ async function signupUser() {
 
 function logoutUser() {
   localStorage.removeItem("currentUser");
+  localStorage.removeItem("authToken");
   console.log("User logged out."); // Use console log for system actions
 
   if (profileModal.style.display === "flex") {
@@ -218,16 +220,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function handleAllergiesChange() {
-    const allergySelect = document.getElementById('signupAllergies');
-    const customInput = document.getElementById('customAllergiesInput');
-    
-    if (allergySelect.value === 'other') {
-        // If 'Other' is selected, show the text input and make it required
-        customInput.classList.remove('hidden');
-        customInput.setAttribute('required', 'required');
-    } else {
-        customInput.classList.add('hidden');
-        customInput.removeAttribute('required');
-        customInput.value = ''; 
-    }
+  const allergySelect = document.getElementById("signupAllergies");
+  const customInput = document.getElementById("customAllergiesInput");
+
+  if (allergySelect.value === "other") {
+    // If 'Other' is selected, show the text input and make it required
+    customInput.classList.remove("hidden");
+    customInput.setAttribute("required", "required");
+  } else {
+    customInput.classList.add("hidden");
+    customInput.removeAttribute("required");
+    customInput.value = "";
+  }
 }
