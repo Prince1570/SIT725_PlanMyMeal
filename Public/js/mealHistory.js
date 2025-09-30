@@ -185,7 +185,6 @@ function showHistoryMealDetails(mealId, title, ingredients, calories, reasons, c
         <p><strong>Confidence Score:</strong> ${(confidence * 100).toFixed(0)}%</p>
       </div>
       <div class="modal-actions">
-        <button class="btn favorite-btn" onclick="addToFavorites('${mealId}')">❤️ Add to Favorites</button>
         <button class="btn primary" onclick="this.parentElement.parentElement.parentElement.remove()">Close</button>
       </div>
     </div>
