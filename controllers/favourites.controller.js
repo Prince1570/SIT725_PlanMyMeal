@@ -6,8 +6,8 @@ import {
 
 export const favouritesList = async (req, res, next) => {
   try {
-    const favourites = await listFavourites();
-
+    const loggedUser = req.user; // ✅ Get user from middleware
+    const favourites = await listFavourites(loggedUser.id); // ✅ Pass user ID
     res.status(200).json(favourites);
   } catch (error) {
     res.status(500).json({ error: error.message });

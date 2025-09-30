@@ -1,7 +1,7 @@
 import { Favourite } from "../models/favourites.schema.js";
 
-export const listFavourites = async () => {
-  const favourites = await Favourite.find().populate("mealId");
+export const listFavourites = async (userId) => { // ✅ Accept userId parameter
+  const favourites = await Favourite.find({ userId }).populate("mealId"); // ✅ Filter by userId
   return { msg: "Favourites listed successfully.", data: favourites };
 };
 

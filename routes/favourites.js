@@ -7,7 +7,7 @@ import {
 import { authenticateToken } from "../middleware/auth.js";
 const router = express.Router();
 
-router.get("/", favouritesList);
+router.get("/", authenticateToken, favouritesList); // ✅ Add authentication middleware
 
 router.post("/add", authenticateToken, addToFavourites);
 
