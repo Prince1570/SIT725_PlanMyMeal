@@ -10,7 +10,7 @@ const UserProfileSchema = new Schema({
         required: true
     },
     allergies: { type: [String], default: [] },
-    calorieTarget: { type: Number, required: true, min: 200, max: 5000 },
+    calorieTarget: { type: Number, required: true, min: 0, max: 5000 },
 }, {
     timestamps: true
 });
