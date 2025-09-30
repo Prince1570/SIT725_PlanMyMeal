@@ -120,7 +120,31 @@ async function getMoodBasedRecommendations() {
 
   const token = localStorage.getItem("authToken");
 
+  if (!token) {
+    alert("Please log in to get personalized recommendations!");
+    // Open login modal
+    if (typeof openModal === 'function') {
+      openModal("loginModal");
+    }
+    return;
+  }
+
   try {
+    // First, check if user profile exists
+    const profileExists = await checkUserProfile();
+
+    if (!profileExists) {
+      // User profile doesn't exist, prompt to create one
+      alert("Please complete your profile first to get personalized meal recommendations!");
+
+      // Open profile setup modal
+      if (typeof openModal === 'function') {
+        openModal("profileSetupModal");
+      }
+      return; // Exit early, don't make recommendation call
+    }
+
+    // Profile exists, proceed with recommendations
     // Show loading state
     const featuredContainer = document.querySelector(".featured-cards");
     const recommendedTitle = document.getElementById("recommendedTitle");
@@ -133,7 +157,7 @@ async function getMoodBasedRecommendations() {
       featuredContainer.innerHTML = '<div class="loading">Loading recommendations...</div>';
     }
 
-    const response = await fetch(`http://localhost:3000/api/recommendations/${selectedMood}`, {
+    const response = await fetch(`http://localhost:3000/api/recommendations/${selectedMood}?noMockData=true`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -144,6 +168,18 @@ async function getMoodBasedRecommendations() {
     const data = await response.json();
 
     if (response.ok) {
+      // Check if the response contains mock data warning
+      if (data.warning && data.warning.includes("mock user")) {
+        // Backend returned mock data, treat as no profile
+        hideRecommendationsSection();
+        alert("Please complete your profile first to get personalized meal recommendations!");
+
+        if (typeof openModal === 'function') {
+          openModal("profileSetupModal");
+        }
+        return;
+      }
+
       displayRecommendations(data.items);
 
       // Scroll to recommendations section only if we have recommendations
@@ -155,9 +191,23 @@ async function getMoodBasedRecommendations() {
     } else {
       console.error("Error fetching recommendations:", data);
 
+      // Check if error is related to missing profile
+      if (data.error && (
+        data.error.includes("profile not found") ||
+        data.error.includes("User profile not found") ||
+        data.error.includes("No user profile found")
+      )) {
+        hideRecommendationsSection();
+        alert("Please complete your profile first to get personalized meal recommendations!");
+
+        if (typeof openModal === 'function') {
+          openModal("profileSetupModal");
+        }
+        return;
+      }
+
       // Hide the entire section if there's an error
       hideRecommendationsSection();
-
       alert(data.error || "Failed to get recommendations");
     }
   } catch (error) {
@@ -167,6 +217,54 @@ async function getMoodBasedRecommendations() {
     hideRecommendationsSection();
 
     alert("Something went wrong while fetching recommendations");
+  }
+}
+
+// Check if user profile exists
+async function checkUserProfile() {
+  const token = localStorage.getItem("authToken");
+
+  if (!token) {
+    return false;
+  }
+
+  try {
+    const response = await fetch("http://localhost:3000/api/profile", {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      // Check if the response contains actual user profile or mock data
+      if (data.profile && data.profile.userId && typeof data.profile.userId === 'object') {
+        // Real profile exists
+        return true;
+      } else {
+        // Mock data or incomplete profile
+        return false;
+      }
+    } else {
+      const data = await response.json();
+      if (data.error === "User profile not found" ||
+        data.error.includes("profile not found") ||
+        data.error.includes("No user profile found")) {
+        // Profile doesn't exist
+        return false;
+      } else {
+        // Other error, assume profile exists to avoid blocking user
+        console.error("Error checking profile:", data);
+        return true;
+      }
+    }
+  } catch (error) {
+    console.error("Error checking profile:", error);
+    // On network error, assume profile exists to avoid blocking user
+    return true;
   }
 }
 
