@@ -14,3 +14,9 @@ Plan My Meal is a web app that provides personalized meal suggestions tailored t
 3.	Select a mood and get meal suggestions
 4.	View meal history
 5.  Add and Remove from Favorites
+
+**Team member names:**
+Krushi Bharodiya
+Prince Patel
+Shikshya Shakya
+Prakriti Rajbhandari
