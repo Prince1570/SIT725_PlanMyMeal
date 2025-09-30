@@ -44,7 +44,7 @@ export const loginUser = async (data) => {
     { id: userExists._id, email: userExists.email },
     SECRET_KEY,
     {
-      expiresIn: "1h",
+      expiresIn: "10h",
     }
   );
 
