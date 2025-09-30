@@ -21,7 +21,7 @@ Before running this project, make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (v14 or higher)
 - [MongoDB](https://www.mongodb.com/) (Local installation)
-- [GitHub](https://github.com/)
+- [Git](https://git-scm.com/)
 - A [Groq API](https://groq.com/) account and API key
 
 **Installation & Setup**
